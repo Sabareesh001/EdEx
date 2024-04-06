@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   color: white;
+  text-align: center;
 }
 #login-form{
   background-color:#121212;
@@ -36,6 +37,7 @@
 }
 #or{
   text-align: center;
+  font-size: 15px;
 }
 .user-id{
   display: flex;
