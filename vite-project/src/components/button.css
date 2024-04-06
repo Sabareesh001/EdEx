@@ -1,0 +1,13 @@
+.action{
+    background-color: #69DC72;
+    font-weight: bold;
+    height:40px;
+    border-radius: 10px;
+    border: none;
+}
+
+.action:hover{
+    background-color: #00d612;
+    cursor: pointer;
+    transition: 0.9s;
+}
