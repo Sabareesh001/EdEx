@@ -7,8 +7,8 @@
   text-align: center;
 }
 #login-form{
+  margin:30px;
   background-color:#121212;
-  width: 25vmax;
   padding: 5vh;
   display: flex;
   flex-direction: column;
