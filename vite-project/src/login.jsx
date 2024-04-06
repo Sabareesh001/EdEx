@@ -1,13 +1,13 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React,{ useState } from 'react'
 import Button from './components/button.jsx'
 import './login.css'
-
+import Input from './components/input.jsx'
+import PasswordField from './components/password.jsx'
+import BasicSelect from './components/select.jsx'
 function App(){
   return(
 <div class="login">
-<form id="login-form">
+<form  onSubmit={e => {e.preventDefault();}}   id="login-form">
   <h1>Login</h1>
   <div class="sign-in-with-google">
     <button><img height="40px" width="40px" src="google.png"/>
@@ -15,16 +15,14 @@ function App(){
     </button>
   </div>
   <br></br>
-  <p id='or'>or</p>
+  <div id="user-input">
+  <BasicSelect></BasicSelect>
+  <Input></Input>
+  </div>
+  
   <br></br>
-  <div class="user-id">
-  <select>
-  </select>
-    <input placeholder='UserID' id="userid"/>
-    </div>
-    <br></br>
-    <input placeholder='password' id="password"/>
-    <br></br>
+  <PasswordField></PasswordField>
+  <br></br>
     <Button action={"Login"}></Button>
     <br>
     </br>
