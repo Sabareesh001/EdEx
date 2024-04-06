@@ -24,18 +24,18 @@ function Register(){
 
   <br></br>
   <div id="user-input">
-  <BasicSelect></BasicSelect>
-  <BasicSelect></BasicSelect>
+  <BasicSelect label={"Role"}></BasicSelect>
+  <Input label={"Age"}></Input>
   </div>
   <br></br>
-  <PasswordField></PasswordField>
+  <PasswordField label={"Set Password"}></PasswordField>
   <br></br>
   <br></br>
-  <PasswordField></PasswordField>
+  <PasswordField label={"Confirm Password"}></PasswordField>
   <br></br>
   <br></br>
   <div id="user-input">
-  <BasicSelect></BasicSelect>
+  <BasicSelect label={"Country"}></BasicSelect>
   <Input label={"Phone Number"}/>
   </div>
   <br></br>

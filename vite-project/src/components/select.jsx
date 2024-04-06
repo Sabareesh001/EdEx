@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function BasicSelect() {
+export default function BasicSelect({label}) {
   const [college, setCollege] = React.useState('');
 
   const handleChange = (event) => {
@@ -15,7 +15,10 @@ export default function BasicSelect() {
 
       <FormControl   sx={{
         backgroundColor: 'transparent', // Background color of the TextField
-        '& .MuiOutlinedInput-root': { // Styling the OutlinedInput component
+        '& .MuiOutlinedInput-root': { 
+            '.MuiSvgIcon-root': {
+                color:"white"
+            },// Styling the OutlinedInput component
           '& fieldset': { // Styling the fieldset of the OutlinedInput
             borderColor:"white", // Border color of the fieldset
           },
@@ -42,7 +45,7 @@ export default function BasicSelect() {
         }
         ,
       }} fullWidth>
-        <InputLabel id="demo-simple-select-label">College</InputLabel>
+        <InputLabel id="demo-simple-select-label">{label}</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"

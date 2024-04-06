@@ -18,12 +18,12 @@ function App(){
   <p id='or'>or</p>
   <br></br>
   <div id="user-input">
-  <BasicSelect></BasicSelect>
+  <BasicSelect label={"College"}></BasicSelect>
   <Input label={"User Id"}></Input>
   </div>
   
   <br></br>
-  <PasswordField></PasswordField>
+  <PasswordField label={"Password"}></PasswordField>
   <br></br>
     <Button action={"Login"}></Button>
     <br>

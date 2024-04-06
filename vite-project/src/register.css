@@ -8,6 +8,9 @@
 .register h1{
     text-align: center;
 }
+#register-form{
+    margin: 50px;
+}
 .sign-up-with-google{
     display:flex;
     align-items: center;
