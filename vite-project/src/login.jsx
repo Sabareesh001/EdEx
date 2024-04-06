@@ -26,6 +26,11 @@ function App(){
     <input placeholder='password' id="password"/>
     <br></br>
     <Button action={"Login"}></Button>
+    <br>
+    </br>
+    <p id="global">Don’t have an Account ? Join as a Global Member <a href='#'>here</a></p>
+    <p>if you are part of an Institution you will have  already been given an account, try                                         logging in using your student gmail or Contact your Institution  for more details. 
+                  check if your institution is available <a href='#'>here.</a></p>
   </form>
 </div>
 

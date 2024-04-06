@@ -7,7 +7,7 @@
 }
 #login-form{
   background-color:#121212;
-  height: 50vh;
+  height: 60vh;
   width: 25vmax;
   padding: 5vh;
   display: flex;
@@ -23,6 +23,9 @@
   height: 6vh;
   border-radius: 20px;
   border: none;
+}
+.sign-in-with-google p{
+  font-size: 15px;
 }
 
 .sign-in-with-google button:hover{
@@ -49,4 +52,13 @@ input{
   border-radius: 5px;
   border:none;
   height: 5vh;
+}
+a{
+  color:#69DC72;
+}
+p{
+  font-size: 10px;
+}
+#global{
+  font-size: 15px;
 }
