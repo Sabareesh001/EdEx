@@ -1,34 +1,48 @@
 import React,{ useState } from 'react'
 import Button from './components/button.jsx'
-import './login.css'
+import './register.css'
 import Input from './components/input.jsx'
 import PasswordField from './components/password.jsx'
 import BasicSelect from './components/select.jsx'
-function App(){
+function Register(){
   return(
-<div class="login">
-<form  onSubmit={e => {e.preventDefault();}}   id="login-form">
-  <h1>Login</h1>
-  <div class="sign-in-with-google">
+<div class="register">
+<form  onSubmit={e => {e.preventDefault();}}   id="register-form">
+  <h1>Register</h1>
+  <div class="sign-up-with-google">
     <button><img height="40px" width="40px" src="google.png"/>
-    <p>Sign in with google</p>
+    <p>&nbsp; Sign up with google</p>
     </button>
   </div>
-  <br></br>
   <p id='or'>or</p>
+  <br></br>
+  <Input label={"Username"}/>
+  <br></br>
+  <br></br>
+  <Input label={"Email"}/>
+  <br></br>
+
   <br></br>
   <div id="user-input">
   <BasicSelect></BasicSelect>
-  <Input label={"User Id"}></Input>
+  <BasicSelect></BasicSelect>
   </div>
-  
   <br></br>
   <PasswordField></PasswordField>
   <br></br>
-    <Button action={"Login"}></Button>
+  <br></br>
+  <PasswordField></PasswordField>
+  <br></br>
+  <br></br>
+  <div id="user-input">
+  <BasicSelect></BasicSelect>
+  <Input label={"Phone Number"}/>
+  </div>
+  <br></br>
+    <Button action={"Signup"}></Button>
     <br>
     </br>
-    <p id="global">Don’t have an Account ? Join as a Global Member <a href='/register'>here</a></p>
+    <p id="global">Already have an Account ? Login <a href='/'>here</a></p>
     <p>if you are part of an Institution you will have  already been given an account, try                                         logging in using your student gmail or Contact your Institution  for more details. 
                   check if your institution is available <a href='../register.html'>here.</a></p>
   </form>
@@ -37,5 +51,5 @@ function App(){
   )
 }
 
-export default App
+export default Register
 

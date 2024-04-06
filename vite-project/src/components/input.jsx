@@ -1,10 +1,10 @@
 import React from "react";
 import TextField from '@mui/material/TextField';
-export default function Input(){
+export default function Input({label}){
     return(
         <TextField
   id="text-search"
-  label="UserId"
+  label={label}
   variant="outlined"
   sx={{
     margin:0,
