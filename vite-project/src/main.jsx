@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import Login from './login.jsx'
+import Login from './authentication/login.jsx'
 import './index.css'
-import Register from './register.jsx'
-import CheckAvailability from './checkAvailability.jsx'
+import Register from './authentication/register.jsx'
+import CheckAvailability from './authentication/checkAvailability.jsx'
 import {
   BrowserRouter as Router,
   Routes,

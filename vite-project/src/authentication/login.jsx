@@ -1,9 +1,9 @@
 import React,{ useState } from 'react'
-import Button from './components/button.jsx'
+import Button from '../components/button.jsx'
 import './login.css'
-import Input from './components/input.jsx'
-import PasswordField from './components/password.jsx'
-import BasicSelect from './components/select.jsx'
+import Input from '../components/input.jsx'
+import PasswordField from '../components/password.jsx'
+import BasicSelect from '../components/select.jsx'
 function App(){
   return(
 <div class="login">
