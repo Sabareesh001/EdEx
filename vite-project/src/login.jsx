@@ -30,7 +30,7 @@ function App(){
     </br>
     <p id="global">Don’t have an Account ? Join as a Global Member <a href='/register'>here</a></p>
     <p>if you are part of an Institution you will have  already been given an account, try                                         logging in using your student gmail or Contact your Institution  for more details. 
-                  check if your institution is available <a href='../register.html'>here.</a></p>
+                  check if your institution is available <a href='/checkAvailability'>here.</a></p>
   </form>
 </div>
 

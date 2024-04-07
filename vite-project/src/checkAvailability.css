@@ -1,0 +1,25 @@
+.checkAvail{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+.checkForm{
+      display: flex;
+      justify-content: space-between;
+      padding: 30px;
+      border-radius: 20px;
+      align-items: center;
+      width: 50vw;
+      background-color:#3e3e3e ;
+      
+}
+#availability{
+    background-color: red;
+    font-size: larger;
+    padding: 20px;
+    border-radius: 20px;
+    display: none;
+}

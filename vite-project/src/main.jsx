@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import Login from './login.jsx'
 import './index.css'
 import Register from './register.jsx'
+import CheckAvailability from './checkAvailability.jsx'
 import {
   BrowserRouter as Router,
   Routes,
@@ -21,6 +22,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route
       path="/register"
       element={<Register></Register>}
+      />
+      <Route path='/checkAvailability' element={<CheckAvailability></CheckAvailability>}
       />
       </Routes>
     </Router>
