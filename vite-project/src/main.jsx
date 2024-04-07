@@ -4,7 +4,8 @@ import Login from './authentication/login.jsx'
 import './index.css'
 import Register from './authentication/register.jsx'
 import CheckAvailability from './authentication/checkAvailability.jsx'
-import Chat from './Chat.jsx'
+import GlobalChat from './globalChat.jsx'
+import MyCollegeChat from './MyCollegeChat.jsx'
 import {
   BrowserRouter as Router,
   Routes,
@@ -26,7 +27,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       />
       <Route path='/checkAvailability' element={<CheckAvailability></CheckAvailability>}
       />
-      <Route path='/global-chat' element={<Chat></Chat>}/>
+      <Route path='/global-chat' element={<GlobalChat/>}/>
+      <Route path='/my-college-chat' element={<MyCollegeChat/>}/>
       </Routes>
     </Router>
   </React.StrictMode>,

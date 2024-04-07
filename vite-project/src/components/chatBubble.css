@@ -1,0 +1,26 @@
+.chat-bubble{
+    display: flex;
+    gap: 10px;
+    overflow: hidden;
+}
+.chat-bubble-chat{
+    background-color: white;
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 20px;
+}
+.post-content-section{
+    display:flex;
+    gap: 10px;
+    flex-direction: column;
+    
+}
+.chat-bubble img{
+    cursor: pointer;
+}
+
+.like-box{
+display: flex;
+align-items: center;
+gap: 2px;
+}
