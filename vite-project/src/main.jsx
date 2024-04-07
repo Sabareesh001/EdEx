@@ -4,7 +4,7 @@ import Login from './authentication/login.jsx'
 import './index.css'
 import Register from './authentication/register.jsx'
 import CheckAvailability from './authentication/checkAvailability.jsx'
-import ResponsiveDrawer from './components/responsiveDrawer.jsx'
+import Chat from './Chat.jsx'
 import {
   BrowserRouter as Router,
   Routes,
@@ -26,7 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       />
       <Route path='/checkAvailability' element={<CheckAvailability></CheckAvailability>}
       />
-      <Route path='/home' element={<ResponsiveDrawer list={['Global','My College','Profile']} title={"EdEx"}></ResponsiveDrawer>}/>
+      <Route path='/global-chat' element={<Chat></Chat>}/>
       </Routes>
     </Router>
   </React.StrictMode>,

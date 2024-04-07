@@ -10,6 +10,7 @@
 }
 #register-form{
     margin: 50px;
+    height:100vh;
 }
 .sign-up-with-google{
     display:flex;

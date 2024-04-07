@@ -1,0 +1,28 @@
+.chat-window{
+    height: 100vh;
+    background-color: #121212;
+}
+.sidebar-options{
+    display: flex;
+    font-size: large;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.sidebar-options a{
+    display: flex;
+    align-items: center;
+    color:black;
+    gap: 10px;
+}
+.sidebar-options a:hover{
+   color: blue;
+   transition: 0.5s;
+}
+#chat-icon{
+    display: flex;
+
+    flex-direction: column;
+ align-items: center;
+       justify-content: center;
+       height: 100vh;
+}

@@ -1,0 +1,25 @@
+
+.ChatBox{
+    background-color: white;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+
+}
+.ChatBox input{
+   height:30px;
+   border-radius: 10px;
+   font-size: medium;
+   border: none;
+}
+.ChatBox input:focus{
+   border:none;
+   outline:none;
+}
+
+.ChatBox img:hover{
+   cursor: pointer;
+   opacity: 0.5;
+}
