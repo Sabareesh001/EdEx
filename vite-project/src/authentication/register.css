@@ -4,13 +4,27 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    
 }
 .register h1{
     text-align: center;
 }
 #register-form{
-    margin: 50px;
-    height:100vh;
+    gap: 8px;
+    width: 60vw;
+    overflow-y: auto;
+    background-color:#121212;
+  padding: 3vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+}
+@media (max-width:999px) {
+       #register-form{
+        width: 75vw;
+       }
 }
 .sign-up-with-google{
     display:flex;
@@ -36,3 +50,9 @@
     color: white;
     transition: 0.9s;
   }
+  #register-form p{
+          color:white;
+  }
+  #register-form h1{
+    color:white;
+}

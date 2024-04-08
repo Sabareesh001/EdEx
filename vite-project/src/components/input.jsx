@@ -10,6 +10,7 @@ export default function Input({ label, id,value,onChange }) {
       label={label}
       variant="outlined"
       value={value}
+      size="medium"
       onChange={onChange}
       sx={{
         margin: 0,

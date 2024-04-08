@@ -1,0 +1,39 @@
+
+.write-post-box-container{
+       display: flex;
+       gap: 10px;
+      
+}
+
+.write-post-box{
+    background-color: rgb(255, 255, 255);
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 50vw;
+    max-height: 40vw;
+    
+}
+
+.write-post-box textarea{
+    
+    -ms-overflow-style: "none";
+    scrollbar-width: "none";
+    background-color: transparent;
+    border-radius: 10px;
+    font-size: 18px;
+    border: none;
+    width: 100%;
+    resize: none;
+ }
+ .write-post-box textarea:focus{
+    border:none;
+    outline:none;
+ }
+ 
+ .write-post-box img:hover{
+    cursor: pointer;
+    opacity: 0.5;
+ }

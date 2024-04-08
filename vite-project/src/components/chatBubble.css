@@ -8,6 +8,7 @@
     padding: 10px;
     border-radius: 15px;
     font-size: 20px;
+    width: 50vw;
 }
 .post-content-section{
     display:flex;
@@ -19,7 +20,7 @@
     cursor: pointer;
 }
 
-.like-box{
+.Upvote-box{
 display: flex;
 align-items: center;
 gap: 2px;

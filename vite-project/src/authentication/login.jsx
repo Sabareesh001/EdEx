@@ -1,5 +1,6 @@
 import React,{ useState } from 'react'
 import Button from '../components/button.jsx'
+import {GoogleLogin} from '@react-oauth/google'
 import './login.css'
 import Input from '../components/input.jsx'
 import PasswordField from '../components/password.jsx'
@@ -10,11 +11,7 @@ function App(){
 <div class="login">
 <form  onSubmit={e => {e.preventDefault();}}   id="login-form">
   <h1>Login</h1>
-  <div class="sign-in-with-google">
-    <button><img height="40px" width="40px" src="google.png"/>
-    <p>Sign in with google</p>
-    </button>
-  </div>
+ <GoogleLogin></GoogleLogin>
   <br></br>
   <p id='or'>or</p>
   <br></br>

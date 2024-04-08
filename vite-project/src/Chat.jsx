@@ -10,6 +10,7 @@ import College from "./assets/icons/education.png"
 import User from "./assets/icons/profile-user.png"
 import Settings from "./assets/icons/settings.png"
 import ChatBubble from "./components/chatBubble";
+import WritePostBox from "./components/WritePostBox";
 class Chat extends React.Component {
     constructor(props) {
       super(props);
@@ -75,16 +76,18 @@ class Chat extends React.Component {
             }
           }
         >
-          <i><h2 style={{color:"white",fontWeight:"normal"}}>{this.props.section} Chat</h2>
+          <i><h2 style={{color:"white",fontWeight:"normal"}}>{this.props.section} Lounge</h2>
           <hr style={{backgroundColor:"#69DC72",width:"100px",height:"5px",border:"none",borderRadius:"30px"}}></hr></i>
           
           <div class="posts">
+          <WritePostBox></WritePostBox>
              {
               this.props.messages.map((data, index) => (
-                <ChatBubble key={index} date_time={data.date_time} like_count={data.like_count} message={data.message} sentby={data.SentBy} />
+                <ChatBubble key={index} date_time={data.date_time} Upvote_count={data.Upvote_count} Downvote_count={data.Downvote_count} message={data.message} sentby={data.SentBy} />
             ))
             
                            }
+                           
     
           </div>
           
@@ -95,10 +98,7 @@ class Chat extends React.Component {
            <h1 style={{color:"white",fontWeight:"lighter"}} >No conversions Yet . . . </h1> */}
         </div> 
          
-          <ChatBox style={{position:"fixed",
-          bottom:"0",  
-         marginBottom:"30px",
-}}></ChatBox>
+       
           
            
         </Sidebar>

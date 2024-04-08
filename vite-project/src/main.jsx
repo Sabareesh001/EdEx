@@ -6,6 +6,7 @@ import Register from './authentication/register.jsx'
 import CheckAvailability from './authentication/checkAvailability.jsx'
 import GlobalChat from './globalChat.jsx'
 import MyCollegeChat from './MyCollegeChat.jsx'
+import {GoogleOAuthProvider} from '@react-oauth/google'
 import {
   BrowserRouter as Router,
   Routes,
@@ -14,12 +15,16 @@ import {
 } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
+  
   <React.StrictMode>
     <Router>
       <Routes>
+
         <Route
           path="/"
-          element={<Login></Login>}
+          element={<GoogleOAuthProvider clientId='64384670382-dvv4o60lvdbiv30pu0crrqlkmggbagu8.apps.googleusercontent.com'>
+          <Login></Login>
+          </GoogleOAuthProvider>}
       />
       <Route
       path="/register"
@@ -31,5 +36,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route path='/my-college-chat' element={<MyCollegeChat/>}/>
       </Routes>
     </Router>
-  </React.StrictMode>,
+  </React.StrictMode>
 )

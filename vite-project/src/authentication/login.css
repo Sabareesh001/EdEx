@@ -6,13 +6,21 @@
   color: white;
   text-align: center;
 }
+.signInButton{
+  background-color: #ff0000;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 #login-form{
+  width: 60vw;
   margin:30px;
   background-color:#121212;
   padding: 5vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   border-radius: 30px;
 }
 .sign-in-with-google button{
