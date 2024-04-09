@@ -80,10 +80,11 @@ class Chat extends React.Component {
           <hr style={{backgroundColor:"#69DC72",width:"100px",height:"5px",border:"none",borderRadius:"30px"}}></hr></i>
           
           <div class="posts">
-          <WritePostBox></WritePostBox>
+          <WritePostBox sessionUser={this.props.sessionUser}></WritePostBox>
+        
              {
               this.props.messages.map((data, index) => (
-                <ChatBubble key={index} date_time={data.date_time} Upvote_count={data.Upvote_count} Downvote_count={data.Downvote_count} message={data.message} sentby={data.SentBy} />
+                <ChatBubble userid={data.user} id={data.id} key={index} liked={data.global} date_time={data.date_time} username={data.username} Upvote_count={data.upVoteCount} Downvote_count={data.downVoteCount} message={data.message} sentby={data.SentBy} />
             ))
             
                            }

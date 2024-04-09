@@ -4,6 +4,9 @@
     height:40px;
     border-radius: 10px;
     border: none;
+    padding: 10px;
+    font-size: 18px;
+    text-align: center;
 }
 
 .action:hover{

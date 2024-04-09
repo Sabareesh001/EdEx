@@ -1,8 +1,7 @@
 
 .write-post-box-container{
        display: flex;
-       gap: 10px;
-      
+       gap: 10px;      
 }
 
 .write-post-box{
@@ -11,10 +10,10 @@
     border-radius: 15px;
     font-size: 20px;
     display: flex;
-    justify-content: space-between;
     width: 50vw;
+    align-items: flex-start;
     max-height: 40vw;
-    
+    gap: 10px;
 }
 
 .write-post-box textarea{

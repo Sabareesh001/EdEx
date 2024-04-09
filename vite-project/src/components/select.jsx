@@ -4,16 +4,18 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function BasicSelect({label}) {
+export default function BasicSelect({label , onChange}) {
   const [college, setCollege] = React.useState('');
 
   const handleChange = (event) => {
     setCollege(event.target.value);
+    onChange(event)
+    
   };
 
   return (
 
-      <FormControl   sx={{
+      <FormControl  sx={{
         backgroundColor: 'transparent', // Background color of the TextField
         '& .MuiOutlinedInput-root': { 
             '.MuiSvgIcon-root': {
@@ -53,9 +55,9 @@ export default function BasicSelect({label}) {
           label="College"
           onChange={handleChange}
         >
-          <MenuItem value={10}>BIT</MenuItem>
-          <MenuItem value={20}>PSG</MenuItem>
-          <MenuItem value={30}>KCT</MenuItem>
+          <MenuItem value={"BIT"}>BIT</MenuItem>
+          <MenuItem value={"PSG"}>PSG</MenuItem>
+          <MenuItem value={"KCT"}>KCT</MenuItem>
         </Select>
       </FormControl>
   );

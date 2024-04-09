@@ -1,12 +1,69 @@
-import React,{ useState } from 'react'
+import React,{ useId, useState } from 'react'
 import Button from '../components/button.jsx'
 import {GoogleLogin} from '@react-oauth/google'
 import './login.css'
 import Input from '../components/input.jsx'
 import PasswordField from '../components/password.jsx'
 import BasicSelect from '../components/select.jsx'
-function App(){
-  
+import axios from 'axios'
+import Cookies from 'js-cookie';
+import { useNavigate } from "react-router-dom";
+function App({loggedIn,setLoggedIn ,sessionUser, setSessionUser}){
+  const [loginFormData,setLoginFormData]=useState(
+    {username:"",password:""}
+  ) 
+  const navigate = useNavigate();
+  const [college,setCollege]=useState("")
+  function  handleCollegeChange (event){
+      setCollege(event.target.value)
+  }
+  function checkLogin(){
+        let data
+         axios.post('http://localhost:3000/checkLogin',{
+              username:college+"@"+loginFormData.username,
+              password:loginFormData.password
+            }
+         ).then((response)=>{
+          data= response.data
+          if(data["status"] === "1"){
+            Cookies.set('token',data["Auth_token"])
+            setLoggedIn(true)
+            navigate("/global-chat");
+          }
+          else{
+         
+          }
+          if(loggedIn===true){
+            axios.get('http://localhost:3000/userInfo',{
+              params:{
+                userId: data["userId"]
+              }
+            }).then((response)=>{
+              console.log(data["userId"])
+              console.log(response.data)
+              let userInfo =  response.data[0]
+              setSessionUser({
+                username:userInfo["username"],
+                userId:userInfo["id"],
+                collge: userInfo["collegeName"],
+                age: userInfo["age"],
+                phone: userInfo["phone"],
+                role:userInfo["roleName"],
+              })
+            })
+          }
+          console.log(sessionUser)
+         }).catch((error)=>{
+          console.error(error)
+         })
+        
+  }
+  function handleUsernameChange(event){
+       setLoginFormData((oldData)=>({username: event.target.value,password:oldData.password}))
+  }
+  function handlePasswordChange(event){
+    setLoginFormData((oldData)=>({username:oldData.username,password:event.target.value}))
+  }
   return(
 <div class="login">
 <form  onSubmit={e => {e.preventDefault();}}   id="login-form">
@@ -16,14 +73,14 @@ function App(){
   <p id='or'>or</p>
   <br></br>
   <div id="user-input">
-  <BasicSelect label={"College"}></BasicSelect>
-  <Input label={"User Id"}></Input>
+  <BasicSelect onChange={handleCollegeChange}   label={"College"}></BasicSelect>
+  <Input  value={loginFormData.username} onChange={handleUsernameChange} label={"User Id"}></Input>
   </div>
   
   <br></br>
-  <PasswordField label={"Password"}></PasswordField>
+  <PasswordField  value={loginFormData.password}  onChange={handlePasswordChange}  label={"Password"}></PasswordField>
   <br></br>
-    <Button action={"Login"}></Button>
+    <Button onclick={checkLogin} action={"Login"}></Button>
     <br>
     </br>
     <p id="global">Don’t have an Account ? Join as a Global Member <a href='/register'>here</a></p>
