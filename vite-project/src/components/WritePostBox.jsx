@@ -1,10 +1,10 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import './WritePostBox.css'
 import Profile from "../assets/icons/man.png"
 import Button from "./button";
 import axios from 'axios'
 import Cookies from 'js-cookie'
-function WritePostBox({sessionUser}){
+function WritePostBox({sessionUser,getGlobalMessages}){
     const [profilePhoto,setProfilePhoto] = useState(Profile)
     const [postContent,setPostContent] = useState("")
     function autoGrow(event) {
@@ -15,10 +15,12 @@ function WritePostBox({sessionUser}){
     function publishPost(){
         if(postContent.length>0){
             axios.post('http://localhost:3000/postGlobalLounge',{message:postContent,cookie:Cookies.get('token')})
-            window.location.reload(false)
+
         }
-        
+        getGlobalMessages()
+      
     }
+   
     return(
          <div class="write-post-box-container">
              
@@ -33,6 +35,7 @@ function WritePostBox({sessionUser}){
                 
          </div>
     )
+   
 }
 
 export default WritePostBox

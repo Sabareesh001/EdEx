@@ -5,7 +5,7 @@ const pool = require('../modals/database')
 const jwt = require('jsonwebtoken');
 pool.getConnection((err,conn)=>{
     Router.get('/globalMessages',(req,res)=>{
-        conn.query(`SELECT gl.* , users.name username FROM global_lounge gl INNER JOIN users ON gl.user=users.id `,(err,rows)=>{
+        conn.query(`SELECT gl.* , gl.user SentBy, users.name username FROM global_lounge gl INNER JOIN users ON gl.user=users.id ORDER BY gl.id DESC`,(err,rows)=>{
             if(err) throw err
             console.log(rows)
             res.send(rows)
@@ -18,7 +18,7 @@ pool.getConnection((err,conn)=>{
     })
 
     Router.get('/downVotedGlobalPosts',(req,res)=>{
-        conn.query(`SELECT user  global from downVoted_posts`,(err,rows)=>{
+        conn.query(`SELECT user ,global from downVoted_posts`,(err,rows)=>{
         res.send(rows)
         })
     })
@@ -26,44 +26,36 @@ pool.getConnection((err,conn)=>{
     Router.patch('/removeUpVote',(req,res)=>{
         console.log(req.body)
         if(req.body["lounge"]==="global"){
-            let token = req.body["cookie"]
-            let user_id = jwt.decode(token)["id"]
-            conn.query(`DELETE FROM upVoted_posts  WHERE  global=? AND user=?`,[req.body["id"],user_id])
-            conn.query(`UPDATE global_lounge SET upVoteCount=upVoteCount-1 WHERE  id=?`,[user_id])
+            conn.query(`DELETE FROM upVoted_posts  WHERE  global=? AND user=?`,[req.body["id"],req.body["user"]])
+            conn.query(`UPDATE global_lounge SET upVoteCount=upVoteCount-1 WHERE  id=?`,[req.body["id"]])
         }
         
        
     })
     Router.patch('/addUpVote',(req,res)=>{
-        let token = req.body["cookie"]
-            let user_id = jwt.decode(token)["id"]
-        console.log(req.body)
         if(req.body["lounge"]==="global"){
-            conn.query(`INSERT INTO upVoted_posts (global,user) VALUES(?,?)`,[req.body["id"],user_id])
-            conn.query(`UPDATE global_lounge SET upVoteCount=upVoteCount+1 WHERE  id=?`,[user_id])
+            conn.query(`INSERT INTO upVoted_posts (global,user) VALUES(?,?)`,[req.body["id"],req.body["user"]])
+            conn.query(`UPDATE global_lounge SET upVoteCount=upVoteCount+1 WHERE  id=?`,[req.body["id"]])
         }
         
        
     })
 
     Router.patch('/removeDownVote',(req,res)=>{
-        let token = req.body["cookie"]
-            let user_id = jwt.decode(token)["id"]
+
         console.log(req.body)
         if(req.body["lounge"]==="global"){
-            conn.query(`DELETE FROM downVoted_posts  WHERE  global=? AND user=?`,[req.body["id"],user_id])
-            conn.query(`UPDATE global_lounge SET downVoteCount=downVoteCount-1 WHERE  id=?`,[user_id])
+            conn.query(`DELETE FROM downVoted_posts  WHERE  global=? AND user=?`,[req.body["id"],req.body["user"]])
+            conn.query(`UPDATE global_lounge SET downVoteCount=downVoteCount-1 WHERE  id=?`,[req.body["id"]])
         }
         
        
     })
     Router.patch('/addDownVote',(req,res)=>{
-        let token = req.body["cookie"]
-            let user_id = jwt.decode(token)["id"]
         console.log(req.body)
         if(req.body["lounge"]==="global"){
-            conn.query(`INSERT INTO downVoted_posts (global,user) VALUES(?,?)`,[req.body["id"],user_id])
-            conn.query(`UPDATE global_lounge SET downVoteCount=downVoteCount+1 WHERE  id=?`,[user_id])
+            conn.query(`INSERT INTO downVoted_posts (global,user) VALUES(?,?)`,[req.body["id"],req.body["user"]])
+            conn.query(`UPDATE global_lounge SET downVoteCount=downVoteCount+1 WHERE  id=?`,req.body["id"])
         }
         
        

@@ -65,43 +65,43 @@ class Chat extends React.Component {
                 padding:"20px"
                },
                content:{
-                msOverflowStyle: "none", 
-                scrollbarWidth: "none",
                 display:"flex",
-                flexDirection:"column",
-                justifyContent:"center",
                 alignItems:"center",
+                flexDirection:"column",
+                gap:"10px",
+                overflow:"hidden"
                }
                
             }
           }
         >
-          <i><h2 style={{color:"white",fontWeight:"normal"}}>{this.props.section} Lounge</h2>
+          <div style={{ display:"flex", justifyContent:"center",width:"100%"}}>
+          <i><h2  style={{ width:"100%",color:"white",fontWeight:"normal"}}>{this.props.section} Lounge</h2>
           <hr style={{backgroundColor:"#69DC72",width:"100px",height:"5px",border:"none",borderRadius:"30px"}}></hr></i>
           
-          <div class="posts">
-          <WritePostBox sessionUser={this.props.sessionUser}></WritePostBox>
+          </div>
+          <div style={{display:"flex",flexDirection:"column" ,gap:"10px", maxHeight:"100vh", overflowY:"scroll", msOverflowStyle: "none",  /* IE and Edge */
+  scrollbarWidth:"none"   }}>
+          <div>
+            <WritePostBox getGlobalMessages={this.props.getGlobalMessages} sessionUser={this.props.sessionUser}></WritePostBox>
+          </div>
         
-             {
-              this.props.messages.map((data, index) => (
-                <ChatBubble userid={data.user} id={data.id} key={index} liked={data.global} date_time={data.date_time} username={data.username} Upvote_count={data.upVoteCount} Downvote_count={data.downVoteCount} message={data.message} sentby={data.SentBy} />
-            ))
-            
-                           }
-                           
-    
+        <div style={{
+          display:"flex",
+          flexDirection:"column",
+          gap:"10px"
+        }}>
+          {
+           this.props.messages.map((data, index) => (
+             <ChatBubble getGlobalMessages={this.props.getGlobalMessages} userid={data.user} id={data.id} key={index} liked={data.global} date_time={data.date_time} username={data.username} Upvote_count={data.upVoteCount} Downvote_count={data.downVoteCount} message={data.message} sentby={data.SentBy} />
+                 ))
+                        }
+        </div>
+                      
           </div>
           
-         
-          <div id="chat-icon">
-         
-           {/* <img height="70vh" width="70vw"  src={ChatIcon}></img>
-           <h1 style={{color:"white",fontWeight:"lighter"}} >No conversions Yet . . . </h1> */}
-        </div> 
-         
-       
-          
-           
+    
+        
         </Sidebar>
        
         </div>
