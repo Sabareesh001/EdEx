@@ -4,11 +4,11 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function BasicSelect({label , onChange}) {
-  const [college, setCollege] = React.useState('');
+export default function BasicSelect({label ,options, onChange}) {
+  const [option, setoption] = React.useState('');
 
   const handleChange = (event) => {
-    setCollege(event.target.value);
+    setoption(event.target.value);
     onChange(event)
     
   };
@@ -51,13 +51,11 @@ export default function BasicSelect({label , onChange}) {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={college}
-          label="College"
+          value={option}
+          label="option"
           onChange={handleChange}
         >
-          <MenuItem value={"BIT"}>BIT</MenuItem>
-          <MenuItem value={"PSG"}>PSG</MenuItem>
-          <MenuItem value={"KCT"}>KCT</MenuItem>
+          {options.map((data)=>(<MenuItem value={data.value}>{data.label}</MenuItem>) )}
         </Select>
       </FormControl>
   );

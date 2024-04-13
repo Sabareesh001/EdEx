@@ -1,4 +1,4 @@
-import React,{ useId, useState } from 'react'
+import React,{ useEffect, useId, useState } from 'react'
 import Button from '../components/button.jsx'
 import {GoogleLogin} from '@react-oauth/google'
 import './login.css'
@@ -8,18 +8,30 @@ import BasicSelect from '../components/select.jsx'
 import axios from 'axios'
 import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
+const api_host = import.meta.env.VITE_API_HOST
 function App({loggedIn,setLoggedIn ,sessionUser, setSessionUser}){
   const [loginFormData,setLoginFormData]=useState(
     {username:"",password:""}
   ) 
+  const [collegeOptions,setCollegeOptions]=useState([]);
   const navigate = useNavigate();
   const [college,setCollege]=useState("")
   function  handleCollegeChange (event){
       setCollege(event.target.value)
   }
+
+  useEffect(()=>{
+    getOptions()
+  },[])
+  function getOptions(){
+    axios.get(`${api_host}/getCollegeOptions`).then((response)=>{
+      console.log(response.data)
+      setCollegeOptions(response.data)
+    })
+  }
   function checkLogin(){
         let data
-         axios.post('http://localhost:3000/checkLogin',{
+         axios.post(`${api_host}/checkLogin`,{
               username:college+"@"+loginFormData.username,
               password:loginFormData.password
             }
@@ -34,7 +46,7 @@ function App({loggedIn,setLoggedIn ,sessionUser, setSessionUser}){
          
           }
           if(loggedIn===true){
-            axios.get('http://localhost:3000/userInfo',{
+            axios.get(`${api_host}/userInfo`,{
               params:{
                 userId: data["userId"]
               }
@@ -73,7 +85,7 @@ function App({loggedIn,setLoggedIn ,sessionUser, setSessionUser}){
   <p id='or'>or</p>
   <br></br>
   <div id="user-input">
-  <BasicSelect onChange={handleCollegeChange}   label={"College"}></BasicSelect>
+  <BasicSelect onChange={handleCollegeChange} options={collegeOptions}   label={"College"}></BasicSelect>
   <Input  value={loginFormData.username} onChange={handleUsernameChange} label={"User Id"}></Input>
   </div>
   

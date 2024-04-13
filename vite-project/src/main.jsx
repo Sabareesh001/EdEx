@@ -16,7 +16,7 @@ import {
   Navigate, // Import Navigate
 } from 'react-router-dom';
 
-
+const api_host = import.meta.env.VITE_API_HOST
 
 function App() {
   const [loading, setLoading] = useState(true); // New loading state
@@ -34,7 +34,7 @@ function App() {
     const token = Cookies.get('token');
         if (token) {
       // Validate user using token
-      axios.post('http://localhost:3000/validateUser', { Auth_token: token }).then(
+      axios.post(`${api_host}/validateUser`, { Auth_token: token }).then(
         (response) => {
           if (response.data === true) {
             setLoggedIn(true);
@@ -61,7 +61,12 @@ function App() {
     <Router>
       
       <Routes>
-        
+      <Route
+          path="/"
+          element={ <GoogleOAuthProvider clientId='64384670382-dvv4o60lvdbiv30pu0crrqlkmggbagu8.apps.googleusercontent.com'>
+          <Login loggedIn={loggedIn} sessionUser={sessionUser} setSessionUser={setSessionUser} setLoggedIn={setLoggedIn} />
+        </GoogleOAuthProvider>}
+        />
         <Route
           path="/login"
           element={

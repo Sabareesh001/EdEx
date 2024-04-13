@@ -6,7 +6,8 @@ const pool=mysql.createPool(
         host     : 'localhost',
         user     : 'root',
         password : '',
-        database : 'EdEx'
+        database : 'EdEx',
+        charset:'utf8mb4'
     }
 
 )

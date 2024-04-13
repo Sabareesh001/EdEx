@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect, useState} from "react";
 import './Chat.css'
 import Sidebar from "react-sidebar";
 const mql = window.matchMedia(`(min-width: 800px)`);
@@ -11,7 +11,9 @@ import User from "./assets/icons/profile-user.png"
 import Settings from "./assets/icons/settings.png"
 import ChatBubble from "./components/chatBubble";
 import WritePostBox from "./components/WritePostBox";
+
 class Chat extends React.Component {
+    
     constructor(props) {
       super(props);
       this.state = {
@@ -37,8 +39,9 @@ class Chat extends React.Component {
    
     mediaQueryChanged() {
       this.setState({ sidebarDocked: mql.matches, sidebarOpen: false });
+      
     }
-   
+
     render() {
       return (
         <div class="chat-window">
@@ -62,42 +65,40 @@ class Chat extends React.Component {
                sidebar:{
                 backgroundColor:"#69DC72",
                 color:"black",
-                padding:"20px"
+                padding:"40px",
                },
                content:{
                 display:"flex",
                 alignItems:"center",
                 flexDirection:"column",
                 gap:"10px",
-                overflow:"hidden"
+                margin:"0",
                }
                
             }
           }
         >
-          <div style={{ display:"flex", justifyContent:"center",width:"100%"}}>
-          <i><h2  style={{ width:"100%",color:"white",fontWeight:"normal"}}>{this.props.section} Lounge</h2>
-          <hr style={{backgroundColor:"#69DC72",width:"100px",height:"5px",border:"none",borderRadius:"30px"}}></hr></i>
-          
-          </div>
-          <div style={{display:"flex",flexDirection:"column" ,gap:"10px", maxHeight:"100vh", overflowY:"scroll", msOverflowStyle: "none",  /* IE and Edge */
-  scrollbarWidth:"none"   }}>
-          <div>
-            <WritePostBox getGlobalMessages={this.props.getGlobalMessages} sessionUser={this.props.sessionUser}></WritePostBox>
-          </div>
-        
-        <div style={{
-          display:"flex",
-          flexDirection:"column",
-          gap:"10px"
-        }}>
-          {
-           this.props.messages.map((data, index) => (
-             <ChatBubble getGlobalMessages={this.props.getGlobalMessages} userid={data.user} id={data.id} key={index} liked={data.global} date_time={data.date_time} username={data.username} Upvote_count={data.upVoteCount} Downvote_count={data.downVoteCount} message={data.message} sentby={data.SentBy} />
-                 ))
-                        }
-        </div>
-                      
+          <div style={{width:"100px",justifyContent:"center", display: "flex", alignItems: "center", flexDirection: "column"}}>
+            <div style={{ display:"flex", justifyContent:"center"}}>
+            <i><h2  style={{ width:"100%",color:"white",fontWeight:"normal"}}>{this.props.section} Lounge</h2>
+            <hr style={{backgroundColor:"#69DC72",width:"100px",height:"5px",border:"none",borderRadius:"30px"}}></hr></i>
+            
+            </div>
+            <div style={{display:"flex",flexDirection:"column" ,gap:"10px", overflowY:"scroll", msOverflowStyle: "none",  /* IE and Edge */
+              scrollbarWidth:"none"  }}>
+            <div >
+              <WritePostBox socket={this.props.socket} getGlobalMessages={this.props.getGlobalMessages} sessionUser={this.props.sessionUser}></WritePostBox>
+            </div>
+                    
+                    <div style={{display:"flex",gap:"10px",flexDirection:"column",width:"100%"}}>
+            {
+             this.props.messages.map((data, index) => (
+               <ChatBubble socket={this.props.socket}  getGlobalMessages={this.props.getGlobalMessages} userid={data.user} id={data.id} key={index} liked={data.global} date_time={data.date_time} username={data.username} Upvote_count={data.upVoteCount} Downvote_count={data.downVoteCount} message={data.message} sentby={data.SentBy} />
+                   ))
+                          }
+                    </div>
+            
+            </div>
           </div>
           
     
