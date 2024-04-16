@@ -13,7 +13,8 @@
     gap: 8px;
     width: 60vw;
     overflow-y: auto;
-    background-color:#121212;
+    background-color:#5e5e5e57;
+    backdrop-filter:blur(4px);
   padding: 3vh;
   display: flex;
   flex-direction: column;

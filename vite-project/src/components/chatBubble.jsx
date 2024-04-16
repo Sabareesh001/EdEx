@@ -1,55 +1,73 @@
 import React, { useEffect, useState } from "react";
 import './chatBubble.css'
+import Moment from 'moment';
 import Profile from "../assets/icons/man.png"
 import UpVote from "../assets/icons/dropup-arrow.png"
 import RedUpVote from "../assets/icons/dropup-arrow-red.png"
 import DownVote from "../assets/icons/dropdown-arrow.png"
 import Delete from "../assets/icons/delete.png"
+import Edit from "../assets/icons/edit.png"
 import RedDownVote from "../assets/icons/dropdown-arrow-red.png"
+import io from "socket.io-client"
 import Cookie from 'js-cookie'
 import axios from 'axios'
 const api_host = import.meta.env.VITE_API_HOST
-function ChatBubble({ socket, getGlobalMessages, username, profile_pic, id, Upvote_count, Downvote_count, message, date_time, style, sentby, userid }) {
+const socket = io(api_host)
+function ChatBubble({ usertag,getGlobalMessages, username, profile_pic, id, Upvote_count, Downvote_count, message, date_time, style, sentby, userid }) {
     const [profilePhoto, setProfilePhoto] = useState(Profile)
-    const [chatBubbleColor, setChatBubbleColor] = useState("white")
+    const [chatBubbleColor, setChatBubbleColor] = useState("")
     const [Upvote, setUpvote] = useState(UpVote)
     const [Downvote, setDownvote] = useState(DownVote)
     const [upVoted, setupVoted] = useState(false)
     const [downVoted, setdownVoted] = useState(false)
     const [gotVotedInfo, setGotVotedInfo] = useState(false);
     const [userId, setUserID] = useState('');
+    const [reload, setReload] = useState(false);
+    const [voteBoxBackgroundColor,setVoteBoxBackgroundColor] = useState("")
     useEffect(() => {
         getUserID()
-        getGlobalMessages()
+        console.log("reloaded")
     }, [])
 
     useEffect(() => {
         setupVoted(false);
         setdownVoted(false);
-        
     }, [id]);
-
+    useEffect(() => {
+        socket.on("responseGlobalMessages", (data) => {
+            console.log("response catched")
+            if (reload === false) {
+                setReload(true)
+            }
+            else {
+                setReload(false)
+            }
+        })
+    }, [])
     useEffect(() => {
         getUporDownVoted()
         userChatColor()
-    }, [id,userId])
-    useEffect(()=>{
+    }, [id, userId])
+    useEffect(() => {
         setUpOrDown()
-    },[upVoted,downVoted])
+    }, [upVoted, downVoted])
 
     function setUpOrDown() {
         setUpvote(UpVote)
         setDownvote(DownVote)
+        setVoteBoxBackgroundColor("")
         if (upVoted) {
             setUpvote(RedUpVote)
-            console.log( `set ${message} as upvoted`)
+            setVoteBoxBackgroundColor("rgba(35, 97, 33, 0.466)")
+            console.log(`set ${message} as upvoted`)
         }
         if (downVoted) {
             setDownvote(RedDownVote)
-            console.log( `set ${message} as downvoted`)
+            setVoteBoxBackgroundColor("rgba(92, 31, 31, 0.466)")
+            console.log(`set ${message} as downvoted`)
         }
     }
-    function getUporDownVoted(){
+    function getUporDownVoted() {
         getUpVotedMessages()
         getDownVotedMessages()
         setGotVotedInfo(true)
@@ -69,27 +87,29 @@ function ChatBubble({ socket, getGlobalMessages, username, profile_pic, id, Upvo
     function userChatColor() {
         if (sentby === userId) {
             console.log(`this is sentBy : ${sentby} ${username} and this is user : ${userId} and message is ${message}`)
-            setChatBubbleColor("#69DC72")
+            setChatBubbleColor("")
             console.log(userId)
             console.log("Colour function is called")
         }
         else {
-            setChatBubbleColor("white")
+            setChatBubbleColor("")
         }
+
     }
 
-     function deletePost() {
-         axios.delete(`${api_host}/deletePost`, {
+    async function deletePost() {
+        await axios.delete(`${api_host}/deletePost`, {
             params: {
                 post: id
             }
         })
         getGlobalMessages()
-        
+
+
     }
     function getDownVotedMessages() {
         axios.get(`${api_host}/downVotedGlobalPosts`).then((response) => {
-    
+
             for (let i = 0; i < response.data.length; i++) {
 
                 if ((response.data[i]["global"] === id) && (response.data[i]["user"] === userId)) {
@@ -125,78 +145,80 @@ function ChatBubble({ socket, getGlobalMessages, username, profile_pic, id, Upvo
         })
         setGotVotedInfo(true)
     }
-     function addUpVote() {
-         axios.patch(`${api_host}/addUpVote`, {
+    async function addUpVote() {
+       
+        await axios.patch(`${api_host}/addUpVote`, {
             id: id,
             lounge: "global",
             user: userId
         })
-
+        getGlobalMessages()
     }
 
-     function removeDownVote() {
-         axios.patch(`${api_host}/removeDownVote`, {
+    async function removeDownVote() {
+        await axios.patch(`${api_host}/removeDownVote`, {
             id: id,
             lounge: "global",
             user: userId
         })
+        getGlobalMessages()
     }
 
-     function removeUpVote() {
-         axios.patch(`${api_host}/removeUpVote`, {
+    async function removeUpVote() {
+        await axios.patch(`${api_host}/removeUpVote`, {
             id: id,
             lounge: "global",
             user: userId
         })
+        getGlobalMessages()
     }
-     function addDownVote() {
-         axios.patch(`${api_host}/addDownVote`, {
+    async function addDownVote() {
+        await axios.patch(`${api_host}/addDownVote`, {
             id: id,
             lounge: "global",
             user: userId
         })
+        getGlobalMessages()
     }
 
 
-    const changeUpvoteState =  () => {
-
+    const changeUpvoteState = () => {
         if (Upvote === UpVote) {
             setUpvote(RedUpVote)
             setupVoted(true)
-             addUpVote()
+            addUpVote()
         }
         if (Downvote === RedDownVote) {
             setDownvote(DownVote)
             setdownVoted(false)
-             removeDownVote()
+            removeDownVote()
         }
         if (Upvote === RedUpVote) {
             setupVoted(false)
             setUpvote(UpVote)
-             removeUpVote()
+            removeUpVote()
         }
 
     };
-    const changeDownvoteState =  () => {
+    const changeDownvoteState = () => {
         if (Downvote == DownVote) {
             setDownvote(RedDownVote)
             setUpvote(UpVote)
             setupVoted(false)
             setdownVoted(true)
-             addDownVote()
+            addDownVote()
         }
         if (Upvote === RedUpVote) {
             setUpvote(UpVote)
             setupVoted(false)
-             removeUpVote()
+            removeUpVote()
         }
 
         if (Downvote === RedDownVote) {
             setDownvote(DownVote)
             setdownVoted(false)
-             removeDownVote()
+            removeDownVote()
         }
-
 
     };
 
@@ -206,18 +228,21 @@ function ChatBubble({ socket, getGlobalMessages, username, profile_pic, id, Upvo
 
 
 
-            <div style={{ backgroundColor: chatBubbleColor }} class="chat-bubble-chat">
+            <div  class="chat-bubble-chat">
                 <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
                     <img height="30vh" width="30vw" src={profilePhoto} />
-                    <p style={{ fontSize: "15px" }}>{username}</p>
+                    <p style={{ fontSize: "12px" }}>{username}</p>
+                    <p style={{ color:"grey" ,fontSize: "12px" }}>@{usertag}</p>
+                    <p style={{fontSize:"12px",color:"grey"}}>·</p>
+                    <p style={{color:"grey"}} >{Moment(date_time).fromNow()}</p>
                 </div>
                 <div class="post-content-section">
                     {message}
                     <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
                         <div class="Upvote-box">
-                            <div style={{ display: "flex", alignItems: "center" }}>
-                                <img onClick={changeUpvoteState} height="20vh" width="20vw" src={Upvote} /><p>{Upvote_count}</p>
-                                <img onClick={changeDownvoteState} height="20vh" width="20vw" src={Downvote} /><p>{Downvote_count}</p>
+                            <div className="voteIconsContainer" style={{ display: "flex", gap: "10px", alignItems: "center" ,backgroundColor:voteBoxBackgroundColor}}>
+                                <div className="voteBox" >  <img className="voteIcon" onClick={changeUpvoteState} height="20vh" width="20vw" src={Upvote} /><p>{Upvote_count}</p></div>
+                                <div className="voteBox" ><img className="voteIcon"  onClick={changeDownvoteState} height="20vh" width="20vw" src={Downvote} /><p>{Downvote_count}</p></div>
                             </div>
                             {userId === sentby && (
                                 <div style={{ display: "flex", alignItems: "center" }}>
@@ -228,8 +253,8 @@ function ChatBubble({ socket, getGlobalMessages, username, profile_pic, id, Upvo
                         </div >
                     </div >
                 </div>
-                <p >{date_time}</p>
-
+           
+ 
 
 
             </div>

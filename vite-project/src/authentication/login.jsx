@@ -21,18 +21,18 @@ function App({loggedIn,setLoggedIn ,sessionUser, setSessionUser}){
   }
 
   useEffect(()=>{
-    getOptions()
+     getOptions()
   },[])
-  function getOptions(){
-    axios.get(`${api_host}/getCollegeOptions`).then((response)=>{
-      console.log(response.data)
+ async function getOptions(){
+    await axios.get(`${api_host}/getCollegeOptions`).then((response)=>{
+      
       setCollegeOptions(response.data)
     })
   }
-  function checkLogin(){
+ async function checkLogin(){
         let data
-         axios.post(`${api_host}/checkLogin`,{
-              username:college+"@"+loginFormData.username,
+        await axios.post(`${api_host}/checkLogin`,{
+              username:college+"-"+loginFormData.username,
               password:loginFormData.password
             }
          ).then((response)=>{
@@ -76,6 +76,9 @@ function App({loggedIn,setLoggedIn ,sessionUser, setSessionUser}){
   function handlePasswordChange(event){
     setLoginFormData((oldData)=>({username:oldData.username,password:event.target.value}))
   }
+  function handleEnter(){
+    
+  }
   return(
 <div class="login">
 <form  onSubmit={e => {e.preventDefault();}}   id="login-form">
@@ -86,7 +89,7 @@ function App({loggedIn,setLoggedIn ,sessionUser, setSessionUser}){
   <br></br>
   <div id="user-input">
   <BasicSelect onChange={handleCollegeChange} options={collegeOptions}   label={"College"}></BasicSelect>
-  <Input  value={loginFormData.username} onChange={handleUsernameChange} label={"User Id"}></Input>
+  <Input onKeyUp={handleEnter}  value={loginFormData.username} onChange={handleUsernameChange} label={"User Id"}></Input>
   </div>
   
   <br></br>

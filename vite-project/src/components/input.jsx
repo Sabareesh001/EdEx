@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TextField from '@mui/material/TextField';
 
-export default function Input({ label, id,value,onChange }) {
+export default function Input({ label, id,value,onChange,onKeyUp }) {
 
 
   return (
@@ -12,6 +12,7 @@ export default function Input({ label, id,value,onChange }) {
       value={value}
       size="medium"
       onChange={onChange}
+      onKeyUp={onKeyUp}
       sx={{
         margin: 0,
         width: "100%",

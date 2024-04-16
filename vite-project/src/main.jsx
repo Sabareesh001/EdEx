@@ -29,11 +29,10 @@ function App() {
     phone: '',
     role: '',
   });
- console.log(Cookies.get('id'))
+
   useEffect(() => {
     const token = Cookies.get('token');
         if (token) {
-      // Validate user using token
       axios.post(`${api_host}/validateUser`, { Auth_token: token }).then(
         (response) => {
           if (response.data === true) {

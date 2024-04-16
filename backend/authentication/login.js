@@ -22,7 +22,7 @@ pool.getConnection((err,conn)=>{
     })
     Router.post('/validateUser',(req,res)=>{
       try{
-        jwt.verifyToken(req.body["Auth_token"])
+         jwt.verifyToken(req.body["Auth_token"])
         console.log("success")
         res.send(true)
     }

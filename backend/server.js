@@ -1,6 +1,7 @@
 const express = require('express')
 const app =  express()
 const http = require('http')
+const request = require('request')
 const server = http.createServer(app)
 const pool = require('./modals/database')
 const login = require('./authentication/login')
@@ -15,6 +16,7 @@ const cors = require('cors');
 const session = require('express-session')
 const jwt = require('jsonwebtoken')
 const path = require('path')
+const { hostname } = require('os')
 
 app.use(cors());
 app.use(BodyParser.json())
@@ -36,11 +38,17 @@ app.get('/sessionUserID', (req, res) => {
 
 io.on('connection',(socket)=>{
   console.log('a user connected')
-  socket.on("send_message",(data)=>{
-    console.log("hello")
-      console.log(request({path:'/globalMessages'}))
-      socket.send()
+  socket.on("globalMessages",(data)=>{
+        request("http://localhost:3000/globalMessages",(err,res)=>{
+        if(err) throw err
+        console.log(res.body)
+        socket.broadcast.emit("responseGlobalMessages",JSON.parse(res.body))
+        socket.emit("responseGlobalMessages",JSON.parse(res.body))
+      })
+      
   })
+ 
+
 })
 
 

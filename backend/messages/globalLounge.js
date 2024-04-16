@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 
 pool.getConnection((err,conn)=>{
     Router.get('/globalMessages',(req,res)=>{
-        conn.query(`SELECT gl.* , gl.user SentBy, users.name username FROM global_lounge gl INNER JOIN users ON gl.user=users.id ORDER BY gl.id DESC`,(err,rows)=>{
+        conn.query(`SELECT gl.* , gl.user SentBy,users.username usertag, users.name username FROM global_lounge gl INNER JOIN users ON gl.user=users.id ORDER BY gl.id DESC`,(err,rows)=>{
             if(err) throw err
             res.send(rows)
         })

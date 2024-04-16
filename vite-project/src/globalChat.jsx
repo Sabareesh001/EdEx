@@ -2,35 +2,35 @@ import React, { useEffect, useState } from "react";
 import Chat from "./Chat";
 import axios from "axios";
 import io from "socket.io-client"
-
 const api_host = import.meta.env.VITE_API_HOST
+const socket = io(api_host)
 function GlobalChat({sessionUser}){
-  const socket = io.connect("http://localhost:3000")
+  const [messages,setMessages]=useState([])
   useEffect(()=>{
-     socket.emit("globalMessages",{})
-  })
+    getGlobalMessages()
+    console.log("making call again")
+},[])
  
-    const [messages,setMessages]=useState([])
    const getGlobalMessages= ()=>{
-         axios.get(`${api_host}/globalMessages`).then(async (response)=>{
-            console.log(response.data)
-             setMessages(response.data.map((data)=>(data)))
-        })
+        socket.emit("globalMessages")  
     }
-   
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //       getGlobalMessages()
-    //     }, 100);
+useEffect(()=>{         
+  socket.on("responseGlobalMessages",(data)=>{
+  console.log(data)
+  setMessages(data)
+})
+},[])
+
     
-    //     return () => clearInterval(interval);
-    //   }, []);
-    useEffect(()=>{
-        getGlobalMessages()
-    },[])
+   
+   
 
     return(
-        <Chat socket={socket} getGlobalMessages={getGlobalMessages} sessionUser={sessionUser}  section={"Global"} messages={messages}/>
+      <>
+      <Chat getGlobalMessages={getGlobalMessages} sessionUser={sessionUser}  section={"Global"} messages={messages}> </Chat> 
+      </>
+      
+       
     )
 }
 export default GlobalChat

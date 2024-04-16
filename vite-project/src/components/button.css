@@ -1,5 +1,5 @@
 .action{
-    background-color: #69DC72;
+    background-color: #D6E0F0;
     font-weight: bold;
     height:40px;
     border-radius: 10px;
@@ -10,7 +10,8 @@
 }
 
 .action:hover{
-    background-color: #00d612;
+    background-color: rgb(109, 109, 109);
+    color:#D6E0F0;
     cursor: pointer;
-    transition: 0.9s;
+    transition: 0.4s;
 }

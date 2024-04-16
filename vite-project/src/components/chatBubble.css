@@ -1,30 +1,67 @@
-.chat-bubble{
+.chat-bubble {
     display: flex;
     gap: 10px;
     overflow: hidden;
     flex-direction: column;
+
 }
-.chat-bubble-chat{
-    background-color: white;
-    padding: 10px;
-    border-radius: 15px;
-    font-size: 20px;
+
+.chat-bubble-chat {
+    color: rgb(255, 255, 255);
+    border-radius: 20px;
+    font-size: 18px;
+    padding: 20px;
     width: 50vw;
 }
-.post-content-section{
-    display:flex;
+
+.chat-bubble-chat:hover {
+    background-color: rgba(65, 46, 108, 0.263);
+    cursor: pointer;
+}
+
+.post-content-section {
+    display: flex;
     gap: 10px;
     flex-direction: column;
     
 }
-.chat-bubble img{
+
+.chat-bubble img {
     cursor: pointer;
 }
 
-.Upvote-box{
-display: flex;
-align-items: center;
-justify-content: space-between;
-gap: 2px;
-width: 100%;
+.Upvote-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2px;
+    width: 100%;
+}
+.voteBox{
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+.voteIconsContainer{
+    background-color: rgba(103, 103, 103, 0.466);
+    width:100px;
+    padding:5px;
+    border-radius: 30px;
+    justify-content: space-around;
+}
+.voteIcon{
+    padding: 5px;
+    border-radius: 20px;
+}
+.voteIcon:hover{
+    background-color: rgba(103, 103, 103, 0.685);
+    padding: 5px;
+    border-radius: 20px;
+}
+
+@media screen and (max-width: 800px) {
+    .chat-bubble-chat {
+        width: 90vw;
+    }
+
 }

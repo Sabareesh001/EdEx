@@ -1,21 +1,25 @@
 
 .write-post-box-container{
        display: flex;
-       gap: 10px;     
+       gap: 10px;    
+
 }
 
 .write-post-box{
-    background-color: rgb(255, 255, 255);
+   padding: 10px; 
+    background-color: transparent;
     padding: 10px;
-    border-radius: 15px;
+    border-radius: 5px;
     font-size: 20px;
     display: flex;
-    width: 50vw;
+    width:50vw;
     align-items: flex-start;
-    max-height: 40vw;
     gap: 10px;
 }
-
+.write-post-box:focus{
+   background-color:rgba(108, 108, 108, 0.495);
+    cursor: pointer;
+}
 .write-post-box textarea{
     
     -ms-overflow-style: "none";
@@ -26,13 +30,22 @@
     border: none;
     width: 100%;
     resize: none;
+    color: white;
  }
  .write-post-box textarea:focus{
     border:none;
     outline:none;
  }
- 
- .write-post-box img:hover{
-    cursor: pointer;
-    opacity: 0.5;
+ .write-post-box textarea::placeholder{
+            font-family: poppins;
+            font-size: 18px;
  }
+
+
+
+ @media screen and (max-width: 800px) {
+   .write-post-box{
+       width: 90vw;
+   }
+   
+}

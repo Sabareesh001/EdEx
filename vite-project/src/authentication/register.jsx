@@ -27,7 +27,7 @@ function Register(){
     })
   }
   function handleUsernameChange(e){
-    setRegisterForm({...registerForm,username:'global@'+e.target.value})
+    setRegisterForm({...registerForm,username:'global-'+e.target.value})
   }
   function handleNameChange(e){
     setRegisterForm({...registerForm,name:e.target.value})
