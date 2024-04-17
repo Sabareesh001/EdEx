@@ -11,9 +11,10 @@ import RedDownVote from "../assets/icons/dropdown-arrow-red.png"
 import io from "socket.io-client"
 import Cookie from 'js-cookie'
 import axios from 'axios'
+import zIndex from "@mui/material/styles/zIndex";
 const api_host = import.meta.env.VITE_API_HOST
 const socket = io(api_host)
-function ChatBubble({ usertag,getGlobalMessages, username, profile_pic, id, Upvote_count, Downvote_count, message, date_time, style, sentby, userid }) {
+function ChatBubble({image,usertag,getGlobalMessages, username, profile_pic, id, Upvote_count, Downvote_count, message, date_time, style, sentby, userid }) {
     const [profilePhoto, setProfilePhoto] = useState(Profile)
     const [chatBubbleColor, setChatBubbleColor] = useState("")
     const [Upvote, setUpvote] = useState(UpVote)
@@ -221,7 +222,32 @@ function ChatBubble({ usertag,getGlobalMessages, username, profile_pic, id, Upvo
         }
 
     };
-
+    function showImageFullScreen(e){
+        const imgDiv =e.target.parentNode.style
+        const oldStyle = {...imgDiv}
+        let style = {
+    position: 'absolute',
+    top:'0',
+    bottom:'0',
+    left:'0',
+    right:'0',
+    margin:'auto',
+    display:"flex",
+    alignItems:"center",
+    justifyContent:"center",
+    maxHeight:"100vh",
+    maxWidth:"100vw",
+    zIndex:'9999',
+    backdropFilter:"blur(10px)"
+        }
+       Object.assign(imgDiv,style)
+        document.body.addEventListener('click',(e)=>{
+            if(!(e.target.classList.contains('image'))){
+ 
+                Object.assign(imgDiv, oldStyle);
+            }
+        })
+    }
 
     return (
         <div style={style} class="chat-bubble">
@@ -237,7 +263,9 @@ function ChatBubble({ usertag,getGlobalMessages, username, profile_pic, id, Upvo
                     <p style={{color:"grey"}} >{Moment(date_time).fromNow()}</p>
                 </div>
                 <div class="post-content-section">
-                    {message}
+
+                  {image && <div className="imgDiv"><img className="image" style={{borderRadius:"20px"}} onClick={showImageFullScreen} src={api_host+'\\'+image}></img></div>}
+                    <p style={{fontSize:"18px"}}>{message}</p>
                     <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
                         <div class="Upvote-box">
                             <div className="voteIconsContainer" style={{ display: "flex", gap: "10px", alignItems: "center" ,backgroundColor:voteBoxBackgroundColor}}>

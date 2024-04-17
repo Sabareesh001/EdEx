@@ -1,6 +1,8 @@
 body {
     font-family: poppins;
       height: 100vh;
+      background-color: black;
+      user-select: none;
 }
 
 html,

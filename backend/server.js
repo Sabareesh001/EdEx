@@ -23,6 +23,7 @@ app.use(BodyParser.json())
 app.use('/',login)
 app.use('/',global_lounge)
 app.use(register)
+app.use('/uploads', express.static(__dirname + '/uploads'));
 app.get('/sessionUserID', (req, res) => {
   try {
     const cookie = req.query.cookie;
@@ -41,7 +42,6 @@ io.on('connection',(socket)=>{
   socket.on("globalMessages",(data)=>{
         request("http://localhost:3000/globalMessages",(err,res)=>{
         if(err) throw err
-        console.log(res.body)
         socket.broadcast.emit("responseGlobalMessages",JSON.parse(res.body))
         socket.emit("responseGlobalMessages",JSON.parse(res.body))
       })

@@ -1,9 +1,28 @@
 const express = require('express')
 const app =  express()
-
+const multer  = require('multer');
 const Router = express.Router()
 const pool = require('../modals/database')
 const jwt = require('jsonwebtoken');
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      // Specify the directory based on file type or any other condition
+      if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, 'uploads/images');
+      } else if (file.mimetype === 'application/pdf') {
+        cb(null, 'uploads/pdfs');
+      } else {
+        cb(new Error('Unsupported file type'));
+      }
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + '-' + file.originalname);
+    }
+  });
+  
+  const upload = multer({ storage: storage ,dest:'../uploads/images'});
+
 
 pool.getConnection((err,conn)=>{
     Router.get('/globalMessages',(req,res)=>{
@@ -26,7 +45,6 @@ pool.getConnection((err,conn)=>{
     })
 
     Router.patch('/removeUpVote',(req,res)=>{
-        console.log(req.body)
         if(req.body["lounge"]==="global"){
             conn.query(`DELETE FROM upVoted_posts  WHERE  global=? AND user=?`,[req.body["id"],req.body["user"]])
             conn.query(`UPDATE global_lounge SET upVoteCount=upVoteCount-1 WHERE  id=?`,[req.body["id"]])
@@ -38,9 +56,14 @@ pool.getConnection((err,conn)=>{
    }    
     })
     Router.patch('/addUpVote',(req,res)=>{
+        console.log("api is called")
         if(req.body["lounge"]==="global"){
-            conn.query(`INSERT INTO upVoted_posts (global,user) VALUES(?,?)`,[req.body["id"],req.body["user"]])
-            conn.query(`UPDATE global_lounge SET upVoteCount=upVoteCount+1 WHERE  id=?`,[req.body["id"]])
+            conn.query(`INSERT INTO upVoted_posts (global,user) VALUES(?,?)`,[req.body["id"],req.body["user"]],(err)=>{
+                if(err) throw err
+            })
+            conn.query(`UPDATE global_lounge SET upVoteCount=upVoteCount+1 WHERE  id=?`,[req.body["id"]],(err)=>{
+                if(err) throw err
+            })
             res.send("added Upvote")
         }
         else{
@@ -52,7 +75,6 @@ pool.getConnection((err,conn)=>{
 
     Router.patch('/removeDownVote',(req,res)=>{
 
-        console.log(req.body)
         if(req.body["lounge"]==="global"){
             conn.query(`DELETE FROM downVoted_posts  WHERE  global=? AND user=?`,[req.body["id"],req.body["user"]])
             conn.query(`UPDATE global_lounge SET downVoteCount=downVoteCount-1 WHERE  id=?`,[req.body["id"]])
@@ -64,7 +86,6 @@ pool.getConnection((err,conn)=>{
        }
     })
     Router.patch('/addDownVote',(req,res)=>{
-        console.log(req.body)
         if(req.body["lounge"]==="global"){
             conn.query(`INSERT INTO downVoted_posts (global,user) VALUES(?,?)`,[req.body["id"],req.body["user"]])
             conn.query(`UPDATE global_lounge SET downVoteCount=downVoteCount+1 WHERE  id=?`,req.body["id"])
@@ -75,10 +96,16 @@ pool.getConnection((err,conn)=>{
            }
        
     })
-    Router.post('/postGlobalLounge',(req,res)=>{
+    Router.post('/postGlobalLounge',upload.single('image'),(req,res)=>{
         let payload= jwt.decode(req.body["cookie"])
+        let img_path=''
         let message = req.body["message"]
-        conn.query(`INSERT INTO global_lounge (user,message) VALUES(?,?)`,[payload["id"],message],(err)=>{
+        console.log(req.body["image"])
+        if((req.body["image"]) !== "no image"){
+            img_path = req.file.path
+            console.log(img_path)
+        }
+        conn.query(`INSERT INTO global_lounge (user,message,image) VALUES(?,?,?)`,[payload["id"],message,img_path],(err)=>{
             if(err) throw err
             res.send("Successfully posted")
         })
@@ -86,7 +113,6 @@ pool.getConnection((err,conn)=>{
     })
   Router.delete('/deletePost',(req,res)=>{
     let post = req.query["post"]
-    console.log(req.query)
     conn.query(`DELETE FROM global_lounge WHERE id=?`,[post],(err)=>{
         if(err) {
             console.log(err)

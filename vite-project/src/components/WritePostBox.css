@@ -2,7 +2,6 @@
 .write-post-box-container{
        display: flex;
        gap: 10px;    
-
 }
 
 .write-post-box{
@@ -12,10 +11,12 @@
     border-radius: 5px;
     font-size: 20px;
     display: flex;
+    flex-direction: column;
     width:50vw;
     align-items: flex-start;
     gap: 10px;
 }
+
 .write-post-box:focus{
    background-color:rgba(108, 108, 108, 0.495);
     cursor: pointer;

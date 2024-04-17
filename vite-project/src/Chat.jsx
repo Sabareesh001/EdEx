@@ -50,7 +50,7 @@ class Chat extends React.Component {
       <div class="chat-window">
         <Sidebar
           sidebar={<div class="sidebar-options">
-
+<div className="bottom" >
             <br></br>
             <a style={{ backgroundColor: (document.URL.includes("global-chat") ? "rgba(65, 46, 108, 0.263)" : "") }} href="/global-chat"><img height="20vh" width="20vw" src={Global} />Global</a>
             <br></br>
@@ -61,8 +61,10 @@ class Chat extends React.Component {
             <a><img height="20vh" width="20vw" src={Settings} />Settings</a>
             <br></br>
             <div style={{ width: "100%", borderBottom: "0.5px solid grey" }}></div>
+            </div>
             <br></br>
-            <a onClick={()=>{Cookies.remove('token');window.location.reload()}}><img height="20vh" width="20vw" src={Logout} />Logout</a>
+            <a style={{marginBottom:"20px"}} onClick={()=>{Cookies.remove('token');window.location.reload()}}><img height="20vh" width="20vw" src={Logout} />Logout</a>
+  
             </div>}
           open={this.state.sidebarOpen}
           docked={this.state.sidebarDocked}
@@ -70,13 +72,17 @@ class Chat extends React.Component {
           styles={
             {
               root: {
-                width: "100vw"
+                width: "100vw",
+                height:window.innerHeight,
+                overflow:"hidden",
+                scrollbarWidth:"none",
               },
               sidebar: {
                 zIndex: "2",
                 backgroundColor: "rgb(16, 16, 16)",
                 color: "white",
                 padding: "20px",
+                
               },
               content: {
                 backgroundColor: "black",
@@ -85,14 +91,14 @@ class Chat extends React.Component {
                 flexDirection: "column",
                 scrollbarWidth:"none",
                 overflow:"hidden",
-                alignItems:"center"
+                alignItems:"center",
               },
 
 
             }
           }
         >
-          <div style={{ width: "100vw",   height:"100vh", display: "flex", alignItems: "center", flexDirection: "column" }}>
+          <div style={{ width: "100vw",   height:window.innerHeight, display: "flex", alignItems: "center", flexDirection: "column" }}>
             <div style={{ display: "flex",alignItems:"center",width:"100%" }}>
             <img onClick={this.onSetSidebarOpen}  src={Menu} style={{ margin:"10px",float:"left" ,height:"20px",width:"20px"}}/>
               <h2 style={{ textAlign:"center", width: "100%", color: "white", fontWeight: "normal" }}>{this.props.section} Lounge</h2>
@@ -122,6 +128,7 @@ class Chat extends React.Component {
                       userid={data.user}
                       id={data.id}
                       key={index}
+                      image={data.image}
                       liked={data.global}
                       date_time={data.date_time}
                       username={data.username}

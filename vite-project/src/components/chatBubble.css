@@ -65,3 +65,15 @@
     }
 
 }
+
+.imgDiv{
+    display: flex;
+    max-height: 500px;
+    max-width: 500px;
+    border-radius: 20px;
+}
+.image{
+    max-width: 80%;
+    max-height: 80%;
+    object-fit:contain;
+}

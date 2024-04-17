@@ -33,6 +33,7 @@ pool.getConnection((err,conn)=>{
                 conn.query(`INSERT INTO users (username,name,password,college,age,phone,role) VALUES (?,?,?,?,?,?,?)`,
                 [data["username"],data["name"],data["password"],college,data["age"],data["country"]+data["phone"],role],(err)=>{
                     if(err)throw err
+                    res.send("1")
                 })
             })
           

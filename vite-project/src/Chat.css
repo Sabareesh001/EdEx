@@ -8,7 +8,9 @@
 .sidebar-options{
     display: flex;
     font-size: large;
+    height: 100%;
     flex-direction: column;
+    justify-content:space-between;
 }
 .sidebar-options a{
     font-weight:normal;
@@ -18,9 +20,11 @@
     gap: 10px;
     padding: 10px;
     border-radius: 10px;
-
     text-decoration: none;
 
+}
+.sidebar-options .upper{
+      justify-content: space-between;
 }
 .sidebar-options a:hover{
    color: rgb(169, 255, 192);
