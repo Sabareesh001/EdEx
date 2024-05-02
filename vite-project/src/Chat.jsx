@@ -14,51 +14,40 @@ import User from "./assets/icons/profile-user.png"
 import Settings from "./assets/icons/settings.png"
 import ChatBubble from "./components/chatBubble";
 import WritePostBox from "./components/WritePostBox";
+import { useNavigate } from "react-router-dom";
+const apiHost = import.meta.env.VITE_API_HOST
 
-class Chat extends React.Component {
+function Chat({socket,getGlobalMessages,sessionUser,section,messages}) {
+  const Navigate = useNavigate()
+   const [sidebarDocked,setSidebarDocked]=useState(mql.matches)
+   const [sidebarOpen,setSidebarOpen]=useState(false)
+   const [global,setGlobal]=useState(false) 
+ useEffect(()=>{
+      setGlobal(false)
+ },[])
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      sidebarDocked: mql.matches,
-      sidebarOpen: false
-    };
-    30
-    this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
-    this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
+
+  function onSetSidebarOpen(open) {
+    setSidebarOpen(open);
   }
 
-  componentWillMount() {
-    mql.addListener(this.mediaQueryChanged);
-  }
 
-  componentWillUnmount() {
-    this.state.mql.removeListener(this.mediaQueryChanged);
-  }
 
-  onSetSidebarOpen(open) {
-    this.setState({ sidebarOpen: open });
-  }
-
-  mediaQueryChanged() {
-    this.setState({ sidebarDocked: mql.matches, sidebarOpen: false });
-
-  }
-
-  render() {
     return (
+    
       <div class="chat-window">
+       
         <Sidebar
           sidebar={<div class="sidebar-options">
 <div className="bottom" >
             <br></br>
-            <a style={{ backgroundColor: (document.URL.includes("global-chat") ? "rgba(65, 46, 108, 0.263)" : "") }} href="/global-chat"><img height="20vh" width="20vw" src={Global} />Global</a>
+            <a style={{ backgroundColor: (document.URL.includes("global-chat") ? "rgba(65, 46, 108, 0.263)" : "") }} onClick={()=>{Navigate("/global-chat")}}><img height="20vh" width="20vw" src={Global} />Global</a>
             <br></br>
-            <a style={{ backgroundColor: (document.URL.includes("my-college-chat") ? "rgba(65, 46, 108, 0.263)" : "") }} href="/my-college-chat"><img height="20vh" width="20vw" src={College} />My College</a>
+            <a style={{ backgroundColor: (document.URL.includes("my-college-chat") ? "rgba(65, 46, 108, 0.263)" : "") }} onClick={()=>{Navigate("/my-college-chat")}}> <img height="20vh" width="20vw" src={College} />My College</a>
             <br></br>
-            <a><img height="20vh" width="20vw" src={User} />Profile</a>
+            <a onClick={()=>{Navigate("/profile")}}> <img height="20vh" width="20vw" src={User} />Profile</a>
             <br></br>
-            <a><img height="20vh" width="20vw" src={Settings} />Settings</a>
+            <a onClick={()=>{Navigate("/settings")}}><img height="20vh" width="20vw" src={Settings} />Settings</a>
             <br></br>
             <div style={{ width: "100%", borderBottom: "0.5px solid grey" }}></div>
             </div>
@@ -66,9 +55,10 @@ class Chat extends React.Component {
             <a style={{marginBottom:"20px"}} onClick={()=>{Cookies.remove('token');window.location.reload()}}><img height="20vh" width="20vw" src={Logout} />Logout</a>
   
             </div>}
-          open={this.state.sidebarOpen}
-          docked={this.state.sidebarDocked}
-          onSetOpen={this.onSetSidebarOpen}
+            
+          open={sidebarOpen}
+          docked={sidebarDocked}
+          onSetOpen={onSetSidebarOpen}
           styles={
             {
               root: {
@@ -82,29 +72,30 @@ class Chat extends React.Component {
                 backgroundColor: "rgb(16, 16, 16)",
                 color: "white",
                 padding: "20px",
-                
+                transition:"none",
+                webkitTransition:"none"
               },
               content: {
-                backgroundColor: "black",
+                backgroundColor: "transparent",
                 display: "flex",
                 justifyContent: "flex-start",
                 flexDirection: "column",
                 scrollbarWidth:"none",
                 overflow:"hidden",
                 alignItems:"center",
+                transition:"none",
+                webkitTransition:"none"
               },
 
 
             }
           }
         >
-          <div style={{ width: "100vw",   height:window.innerHeight, display: "flex", alignItems: "center", flexDirection: "column" }}>
-            <div style={{ display: "flex",alignItems:"center",width:"100%" }}>
-            <img onClick={this.onSetSidebarOpen}  src={Menu} style={{ margin:"10px",float:"left" ,height:"20px",width:"20px"}}/>
-              <h2 style={{ textAlign:"center", width: "100%", color: "white", fontWeight: "normal" }}>{this.props.section} Lounge</h2>
-              
-
-
+          <div style={{ width:"100%",   height:"100%", display: "flex", alignItems: "center", flexDirection: "column" }}>
+            <div style={{ display: "flex",alignItems:"center",width:"100%",justifyContent:"center" }}>
+            <img className="menu" onClick={onSetSidebarOpen}  src={Menu} style={{ margin:"30px",float:"left" ,height:"20px",width:"20px"}}/>
+              <h2 style={{ textAlign:"center", width: "100%", color: "white", fontWeight: "normal" }}>{section} Lounge </h2>
+              <p style={{color:"white"}}>connect to this ip : {apiHost.slice(0,apiHost.length-4)+5173} </p>
             </div>
             <div style={{
                 display:"flex",flexDirection:"column" ,gap:"10px", overflowY:"scroll", msOverflowStyle: "none",  /* IE and Edge */
@@ -112,18 +103,19 @@ class Chat extends React.Component {
             }}>
               <div style={{ width: "100%", borderBottom: "0.5px solid grey" }}></div>
               <div >
-                <WritePostBox socket={this.props.socket} getGlobalMessages={this.props.getGlobalMessages} sessionUser={this.props.sessionUser}></WritePostBox>
+                <WritePostBox socket={socket} getGlobalMessages={getGlobalMessages} sessionUser={sessionUser}></WritePostBox>
               </div>
               <div style={{ width: "100%", borderBottom: "0.5px solid grey" }}></div>
               <div style={{
                  display:"flex",
                  flexDirection:"column",
                  gap:"10px",
+                 width:"100%"
               }}>
-                {this.props.messages.map((data, index) => (
+                {messages.map((data, index) => (
                   <>
                     <ChatBubble
-                      getGlobalMessages={this.props.getGlobalMessages}
+                      getGlobalMessages={getGlobalMessages}
                       usertag={data.usertag}
                       userid={data.user}
                       id={data.id}
@@ -152,6 +144,5 @@ class Chat extends React.Component {
 
       </div>
     );
-  }
 }
 export default Chat

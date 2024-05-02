@@ -1,0 +1,29 @@
+.writeComment{
+    padding: 20px;
+}
+.writeComment textarea{
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    color: white;
+    resize: none;
+}
+.writeComment textarea:focus{
+    outline: none;
+}
+
+.writeComment button{
+    height: 30px;
+    width: 80px;
+    border-radius: 5px;
+    border: none;
+}
+.writeComment button:hover{
+    cursor: pointer;
+    background-color: rgb(211, 191, 248);
+}
+
+.commentBox{
+    display: flex;
+    gap:10px
+}

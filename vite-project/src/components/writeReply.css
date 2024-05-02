@@ -1,0 +1,29 @@
+.writeReply{
+    padding: 20px;
+}
+.writeReply textarea{
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    color: white;
+    resize: none;
+}
+.writeReply textarea:focus{
+    outline: none;
+}
+
+.writeReply button{
+    height: 30px;
+    width: 80px;
+    border-radius: 5px;
+    border: none;
+}
+.writeReply button:hover{
+    cursor: pointer;
+    background-color: rgb(211, 191, 248);
+}
+
+.replyBox{
+    display: flex;
+    gap:10px
+}

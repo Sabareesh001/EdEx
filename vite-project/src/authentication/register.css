@@ -1,18 +1,19 @@
 .register{
-    height: 100vh;
+    
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    
+    overflow: hidden;
+    height: 100vh;
 }
 .register h1{
     text-align: center;
 }
 #register-form{
-    gap: 8px;
+    gap: 5px;
     width: 60vw;
-    overflow-y: auto;
+    color: rgba(0, 0, 0, 0.365);
     background-color:#5e5e5e57;
     backdrop-filter:blur(4px);
   padding: 3vh;
@@ -25,6 +26,10 @@
 @media (max-width:999px) {
        #register-form{
         width: 75vw;
+        height: 90vh;
+       }
+       h1{
+        font-size: medium;
        }
 }
 .sign-up-with-google{

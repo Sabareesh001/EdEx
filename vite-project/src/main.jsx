@@ -9,6 +9,8 @@ import MyCollegeChat from './MyCollegeChat.jsx';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import  Profile from  './profile.jsx'
+import Settings from './settings.jsx';
 import {
   BrowserRouter as Router,
   Routes,
@@ -50,33 +52,32 @@ function App() {
     }
    
   }, []);
-
+  
   if (loading) {
     return <div>Loading...</div>; // Render a loading indicator while validating
   }
 
   return (
-
+  
     <Router>
       
       <Routes>
       <Route
           path="/"
-          element={ <GoogleOAuthProvider clientId='64384670382-dvv4o60lvdbiv30pu0crrqlkmggbagu8.apps.googleusercontent.com'>
+          element={ !loggedIn? <GoogleOAuthProvider clientId='64384670382-dvv4o60lvdbiv30pu0crrqlkmggbagu8.apps.googleusercontent.com'>
           <Login loggedIn={loggedIn} sessionUser={sessionUser} setSessionUser={setSessionUser} setLoggedIn={setLoggedIn} />
-        </GoogleOAuthProvider>}
+        </GoogleOAuthProvider> :<Navigate  to={"/global-chat"}/> }
         />
         <Route
           path="/login"
-          element={
-            <GoogleOAuthProvider clientId='64384670382-dvv4o60lvdbiv30pu0crrqlkmggbagu8.apps.googleusercontent.com'>
-              <Login loggedIn={loggedIn} sessionUser={sessionUser} setSessionUser={setSessionUser} setLoggedIn={setLoggedIn} />
-            </GoogleOAuthProvider>
+          element={!loggedIn? <GoogleOAuthProvider clientId='64384670382-dvv4o60lvdbiv30pu0crrqlkmggbagu8.apps.googleusercontent.com'>
+          <Login loggedIn={loggedIn} sessionUser={sessionUser} setSessionUser={setSessionUser} setLoggedIn={setLoggedIn} />
+        </GoogleOAuthProvider> :<Navigate  to={"/global-chat"}/>
           }
         />
         <Route
           path="/register"
-          element={<Register />}
+          element={!loggedIn?<Register />:<Navigate  to={"/global-chat"}/>}
         />
         <Route path='/checkAvailability' element={<CheckAvailability />} />
         {/* Use Navigate to redirect if not logged in */}
@@ -87,6 +88,18 @@ function App() {
         <Route
           path='/my-college-chat'
           element={loggedIn ? <MyCollegeChat /> : <Navigate to="/login" />}
+        />
+        <Route
+          path='/profile'
+          element={loggedIn ? <Profile sessionUser={sessionUser}  /> : <Navigate to="/login" />}
+        />
+        <Route
+          path='/user'
+          element={loggedIn ? <Profile  sessionUser={sessionUser}  /> : <Navigate to="/login" />}
+        />
+        <Route
+          path='/settings'
+          element={loggedIn ? <Settings  sessionUser={sessionUser}  /> : <Navigate to="/login" />}
         />
       </Routes>
     </Router>

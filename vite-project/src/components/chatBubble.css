@@ -5,13 +5,18 @@
     flex-direction: column;
 
 }
-
+.chat-bubble a{
+    text-decoration: none;
+}
 .chat-bubble-chat {
     color: rgb(255, 255, 255);
     border-radius: 20px;
     font-size: 18px;
     padding: 20px;
     width: 50vw;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .chat-bubble-chat:hover {
@@ -63,17 +68,51 @@
     .chat-bubble-chat {
         width: 90vw;
     }
-
+    .chat-bubble-chat:hover {
+        background-color:transparent;
+        cursor: pointer;
+    }
+    .voteIcon:hover{
+        background-color:transparent;
+        padding: 5px;
+        border-radius: 20px;
+    }
 }
 
 .imgDiv{
     display: flex;
-    max-height: 500px;
-    max-width: 500px;
+    max-height: 300px;
+    width: 100%;
     border-radius: 20px;
 }
 .image{
-    max-width: 80%;
-    max-height: 80%;
+    max-width: 100%;
+    max-height: 100%;
     object-fit:contain;
+}
+.follow-button{
+    background-color: transparent;
+    border: solid white 1px;
+    border-radius: 5px;
+    padding: 5px;
+    color: white;
+    margin-left: auto;
+    font-size: small;
+}
+.follow-button:hover{
+    cursor: pointer;
+}
+
+.comment-icon{
+    height: 22px;
+    width: 20px;
+    border-radius: 10px;
+    padding: 10px;
+}
+.comment-icon:hover{
+    background-color: rgba(103, 103, 103, 0.466);
+}
+.commentSection{
+    background-color:rgba(103, 103, 103, 0.466);
+    border-radius: 10px;
 }

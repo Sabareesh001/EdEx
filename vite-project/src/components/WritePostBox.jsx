@@ -51,7 +51,7 @@ function WritePostBox({sessionUser,getGlobalMessages}){
                 <div  className="write-post-box" >
             <div style={{display:"flex",width:"100%",gap:"25px"}}>
             <img  height="40vh" width="40vw"  src={profilePhoto}/>
-            <div style={{width:"100%"}}>
+            <div style={{width:"100%",display:"flex",flexDirection:"column",gap:"10px"}}>
             {
                 selectedImage !== null && 
                 <div style={{display:"flex"}}>

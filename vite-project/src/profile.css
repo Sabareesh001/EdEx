@@ -1,0 +1,86 @@
+.profile{
+   height: 100%;
+   overflow-y: scroll;
+}
+.profile img:hover {
+    cursor: pointer;
+}
+.profileSection{
+    color: white;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+}
+.profileSection p{
+    font-size: 24px;
+
+    margin: 0;
+}
+.profileSection::before{
+    background-color: #18183d;
+  content: "";
+  margin: 0 auto;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 25vh;
+  z-index: -1;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.sidebar-options{
+    display: flex;
+    font-size: large;
+    height: 100%;
+    flex-direction: column;
+    justify-content:space-between;
+}
+.sidebar-options a{
+    font-weight:normal;
+    display: flex;
+    align-items: center;
+    color:white;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    text-decoration: none;
+
+}
+.sidebar-options .upper{
+      justify-content: space-between;
+}
+.sidebar-options a:hover{
+   color: rgb(169, 205, 192);
+   background-color: rgba(65, 46, 108, 0.263);
+}
+.menu{
+    display: none;
+}
+.profilePic{
+    margin-top: 15vh;
+}
+.username{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.userEngagement{
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    align-items: center ;
+    width: 100%;
+}
+@media screen and (max-width:800px){
+        .menu{
+            display: block;
+        }
+        .profilePic{
+            margin: 0;
+        }
+        .userInfo{
+            width: 70vw;
+        }
+}

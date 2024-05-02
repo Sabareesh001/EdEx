@@ -30,4 +30,11 @@
    color: rgb(169, 255, 192);
    background-color: rgba(65, 46, 108, 0.263);
 }
-
+.menu{
+    display: none;
+}
+@media screen and (max-width:800px){
+        .menu{
+            display: block;
+        }
+}

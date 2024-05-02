@@ -6,7 +6,7 @@
   color: #F1F3F8;
   text-align: center;
   height: 100vh;
-
+  
 }
 .signInButton{
   background-color: #ff0000;
@@ -21,7 +21,7 @@
   padding: 5vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 10px;
   align-items: center;
   border-radius: 30px;
 }

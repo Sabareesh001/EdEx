@@ -12,7 +12,7 @@ import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-export default function PasswordField({value,label,onChange}){
+export default function PasswordField({value,label,onChange,required,bgImg}){
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -48,11 +48,19 @@ export default function PasswordField({value,label,onChange}){
         color: "white", // Changes the label color // Changes the label font weight
     }
     ,}} variant="outlined">
-    <InputLabel  sx={{color:"white"}} htmlFor="outlined-adornment-password">{label}</InputLabel>
+    <InputLabel sx={{color:"white",}} htmlFor="outlined-adornment-password">{label}</InputLabel>
     <OutlinedInput
       id="outlined-adornment-password"
       onChange={onChange}
       value={value}
+      required={required}
+      sx={{
+        backgroundImage:`url(${bgImg})`,
+        backgroundSize:"20px",
+        backgroundRepeat:"no-repeat",
+        backgroundPositionX:"80%",
+        backgroundPositionY:"50%",
+      }}
       type={showPassword ? 'text' : 'password'}
       endAdornment={
         <InputAdornment  position="end">

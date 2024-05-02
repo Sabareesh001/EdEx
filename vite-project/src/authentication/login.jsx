@@ -16,6 +16,7 @@ function App({loggedIn,setLoggedIn ,sessionUser, setSessionUser}){
   const [collegeOptions,setCollegeOptions]=useState([]);
   const navigate = useNavigate();
   const [college,setCollege]=useState("")
+  const [error,setError]=useState(null);
   function  handleCollegeChange (event){
       setCollege(event.target.value)
   }
@@ -67,6 +68,7 @@ function App({loggedIn,setLoggedIn ,sessionUser, setSessionUser}){
           console.log(sessionUser)
          }).catch((error)=>{
           console.error(error)
+            setError(error.response.data)
          })
         
   }
@@ -84,17 +86,14 @@ function App({loggedIn,setLoggedIn ,sessionUser, setSessionUser}){
 <form  onSubmit={e => {e.preventDefault();}}   id="login-form">
   <h1>Login</h1>
  <GoogleLogin></GoogleLogin>
-  <br></br>
   <p id='or'>or</p>
-  <br></br>
+  {error!==null && <p style={{fontSize:"15px",color:"red",backgroundColor:"black",borderRadius:"10px",padding:"10px"}}>{error}</p>}
   <div id="user-input">
   <BasicSelect onChange={handleCollegeChange} options={collegeOptions}   label={"College"}></BasicSelect>
   <Input onKeyUp={handleEnter}  value={loginFormData.username} onChange={handleUsernameChange} label={"User Id"}></Input>
   </div>
   
-  <br></br>
   <PasswordField  value={loginFormData.password}  onChange={handlePasswordChange}  label={"Password"}></PasswordField>
-  <br></br>
     <Button onclick={checkLogin} action={"Login"}></Button>
     <br>
     </br>

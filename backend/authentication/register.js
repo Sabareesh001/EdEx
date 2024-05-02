@@ -11,7 +11,7 @@ pool.getConnection((err,conn)=>{
         })
       })
       Router.get('/getCollegeOptions',(req,res)=>{
-        conn.query(`SELECT acronym value,acronym label FROM college`,(err,rows)=>{
+        conn.query(`SELECT acronym value,acronym label,name FROM college`,(err,rows)=>{
             res.send(rows)
         })
       })
@@ -24,14 +24,14 @@ pool.getConnection((err,conn)=>{
         let data = req.body
         let college  
         let role
-        conn.query(`SELECT id FROM college WHERE name = ?`,[data["college"]],(err,rows)=>{
+        conn.query(`SELECT id FROM college WHERE acronym = ?`,[data["college"]],(err,rows)=>{
             college = rows[0]["id"]
             console.log(college)
             conn.query(`SELECT id FROM role WHERE name = ?`,[data["role"]],(err,rows)=>{
                 role = rows[0]["id"]
                 console.log(role)
                 conn.query(`INSERT INTO users (username,name,password,college,age,phone,role) VALUES (?,?,?,?,?,?,?)`,
-                [data["username"],data["name"],data["password"],college,data["age"],data["country"]+data["phone"],role],(err)=>{
+                [data["username"],data["name"],data["password"],college,data["age"],data["country"]+' '+data["phone"],role],(err)=>{
                     if(err)throw err
                     res.send("1")
                 })
