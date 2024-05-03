@@ -63,7 +63,7 @@ function Profile () {
 useEffect(()=>{
   
   isFollowing()
-},[userId,sessionUserInfo,userInfo])
+},[sessionUserInfo,userInfo])
 
 
   useEffect(()=>{
@@ -78,7 +78,8 @@ useEffect(()=>{
 
   
   async function isFollowing(){
-    if(userId!==null && (userId!==sessionUserInfo.userId)){
+    console.log(sessionUserInfo)
+    if(userId!== null && (userId!=sessionUserInfo.userId)){
       console.log(userId +" | " +sessionUserInfo.userId);
     await axios.get(`${apiHost}/isFollowing`,{params:{
      userId:userInfo.userId,

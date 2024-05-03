@@ -16,6 +16,8 @@ import ChatBubble from "./components/chatBubble";
 import Profile from "./assets/icons/man.png";
 import Edit from "./assets/icons/pen.png";
 import Pen from "./assets/icons/edit.png"
+import Approved from "./assets/icons/approval.png"
+import Xmark from "./assets/icons/xmark.png"
 import WritePostBox from "./components/WritePostBox";
 import { useNavigate } from "react-router-dom";
 import './settings.css'
@@ -46,6 +48,14 @@ function Settings({ sessionUser }) {
   const [toggleSave, setToggleSave] = useState(false)
   const [roleOptions, setRoleOptions] = useState([])
   const [collegeOptions,setCollegeOptions] = useState([])
+  const [error,setError]= useState(null)
+  const [toggleUserInfo,setToggleUserInfo] = useState(false)
+  const [menuToggle,setMenuToggle]=useState(true)
+  const [collegeTag,setCollegeTag]= useState("Nil")
+  const [collegeTagLength,setCollegeTagLength]= useState(0)
+  const [userNameState,setUserNameState]=useState(null)
+  const [uploadedProfilePhoto,setUploadedProfilePhoto] = useState(null)
+  const [toggleProfiePhotoSave,setToggleProfilePhotoSave] = useState(false)
   useEffect(() => {
     setGlobal(false)
     getUserInfo()
@@ -63,6 +73,8 @@ function Settings({ sessionUser }) {
   }, [])
 
   useEffect(() => {
+
+    console.log(sessionUserInfo)
     setUsername(sessionUserInfo.Username)
     setName(sessionUserInfo.Name)
     setCollege(sessionUserInfo.College)
@@ -75,7 +87,26 @@ function Settings({ sessionUser }) {
       setProfilePic(apiHost + "/" + sessionUserInfo.profilePic)
     }
   }, [sessionUserInfo.profilePic])
-
+   
+  useEffect(()=>{
+      findTagNameLength()
+  },[username])
+  useEffect(()=>{
+    if((username === sessionUserInfo.Username) && (age === sessionUserInfo.Age)&&(name === sessionUserInfo.Name)&&(role === sessionUserInfo.Role)&&(college === sessionUserInfo.College)){
+      setToggleSave(false)
+    }
+    else{
+      setToggleSave(true)
+    }
+  },[college])
+  useEffect(()=>{
+    if((username === sessionUserInfo.Username) && (age === sessionUserInfo.Age)&&(name === sessionUserInfo.Name)&&(role === sessionUserInfo.Role)&&(college === sessionUserInfo.College)){
+      setToggleSave(false)
+    }
+    else{
+      setToggleSave(true)
+    }
+  },[role])
   function getRoleOptions() {
     axios.get(`${apiHost}/getRolesOptions`).then((res) => {
       setRoleOptions(res.data)
@@ -89,7 +120,7 @@ function Settings({ sessionUser }) {
   function onSetSidebarOpen(open) {
     setSidebarOpen(open);
   }
-
+ 
   async function getUserInfo() {
     await axios.get(`${apiHost}/userInfo`, {
       params: {
@@ -102,7 +133,7 @@ function Settings({ sessionUser }) {
         Name: data.name,
         userId: data.id,
         Username: data.username,
-        College: data.collegeName,
+        College: data.collegeAcronym,
         Age: data.age,
         Mobile: data.phone.slice(0, 4) + '*'.repeat(data.phone.slice(4, data.phone.length - 3).length) + data.phone.slice(data.phone.length - 3, data.phone.length),
         Role: data.roleName,
@@ -119,10 +150,8 @@ function Settings({ sessionUser }) {
     setToggleSave(true)
   }
   async function uploadProfilePhoto(e) {
-    const profilePhotoUpload = e.target.files[0]
-    console.log(profilePhotoUpload)
-    await axios.patch(`${apiHost}/uploadProfilePhoto`, { id: sessionUserInfo.userId, profilePhoto: profilePhotoUpload, }, { headers: { 'Content-Type': 'multipart/form-data' } })
-    getUserInfo()
+    await axios.patch(`${apiHost}/uploadProfilePhoto`, { id: sessionUserInfo.userId, profilePhoto: uploadedProfilePhoto, }, { headers: { 'Content-Type': 'multipart/form-data' } })
+    setToggleProfilePhotoSave(false)
   }
   function resetDetails() {
     setUsername(sessionUserInfo.Username)
@@ -131,47 +160,105 @@ function Settings({ sessionUser }) {
     setAge(sessionUserInfo.Age)
     setRole(sessionUserInfo.Role)
     setToggleSave(false)
+    setUserNameState(null)
+    const inputs = document.querySelectorAll('input')
+     inputs.forEach(input => {
+        input.style.backgroundColor = "transparent"
+    });
   }
   function handleUsernameChange(e) {
-    let collegeLength = 0;
-    for (let i = 0; i < e.target.value.length; i++) {
-      if (e.target.value[i] === '-') {
-        break;
-      }
-      collegeLength++;
-    }
-    if (e.target.value.slice(0, collegeLength + 1) === username.slice(0, collegeLength + 1)) {
+    if (e.target.value.slice(0, collegeTagLength + 1) === username.slice(0, collegeTagLength + 1)) {
       setUsername(e.target.value)
+      if(e.target.value === sessionUserInfo.Username){
+        setUserNameState(Approved)
+      }
+      else if(e.target.value.slice(collegeTagLength+1,e.target.value.length)===''){
+        setUserNameState(Xmark)
+      }
+      else{
+        axios.get(`${apiHost}/checkUsername`,{params:{username:e.target.value}}).then((res)=>{
+          if(res.data === true){
+            setUserNameState(Approved)
+          }
+          else{
+            setUserNameState(Xmark)
+          }
+        })
+      }
+    
     }
   }
   function handleRoleChange(e) {
-    if (e.target.value === sessionUserInfo.Role) { setToggleSave(false)
-      setRole( sessionUserInfo.Role)
-    
-    }
-    else {
-      setRole(e.target.value)
-      setToggleSave(true)
-      
-    }
+    setRole(e.target.value)
   }
   async function updateUserDetails(){
    console.log("im called")
-   await axios.put(`${apiHost}/changeUserDetails`,{username:username,name:name,college:college,age:age,role:2,id:sessionUserInfo.userId})
+   if(age<17){
+    setError("Age must be atleast 17")
+   }
+   else{
+    await axios.put(`${apiHost}/changeUserDetails`,{username:username,name:name,college:college,age:age,role:role,id:sessionUserInfo.userId})
     getUserInfo()
+    setError(null)
+    setToggleSave(false)
+    const inputs = document.querySelectorAll('input')
+     inputs.forEach(input => {
+        input.style.backgroundColor = "transparent"
+    });
+    
+   }
+ 
   }
+
   function handleCollegeChange(e){
-    console.log(e.target.value)
-    if (e.target.value === sessionUserInfo.College) { 
-      setToggleSave(false)
-      setCollege( sessionUserInfo.College)
-    }
-    else {
-      setCollege(e.target.value)
-      setToggleSave(true)
-      
-    }
+    const select = e.target
+    const CollegeName = select.options[select.selectedIndex].label
+    const tagName = select.options[select.selectedIndex].value
+    setCollege(select.value)
+    setUsername((prev)=>(tagName+prev.slice(collegeTagLength,prev.length)))
   }
+
+function findTagNameLength(){
+  let count=0;
+  for(let i=0;i<username.length;i++){
+    if(username[i]==='-'){
+      break;
+    }
+    count++;
+  }
+  setCollegeTagLength(count)
+}
+
+  function handleAgeChange(e){
+    const age = e.target.value
+  if(age==sessionUserInfo.Age){
+    setToggleSave(false)
+    setAge(age)
+  }
+  else if(age<0){
+    setAge(17)
+  }
+  else if(age>100){
+    setAge(100)
+  }    
+  else{
+    setAge(age)
+  }
+}
+function handleNameChange(e){
+  if(e.target.value === sessionUserInfo.Name){
+    setToggleSave(false)
+  }
+    setName(e.target.value)
+  }
+
+function handleProfilePhotoUpload(e){
+      setUploadedProfilePhoto(e.target.files[0])
+      setProfilePic(URL.createObjectURL(e.target.files[0]))
+      setToggleProfilePhotoSave(true)
+}
+
+
   return (
 
 
@@ -240,20 +327,37 @@ function Settings({ sessionUser }) {
 
         <div className='profileSectionSettings'>
           <div style={{ position: "relative" }}>
-            <input onChange={uploadProfilePhoto} id="profileUpload" type="file" style={{ display: "none" }}></input>
+            <input onChange={handleProfilePhotoUpload} id="profileUpload" type="file" style={{ display: "none" }}></input>
             <img className='profilePic' height={"180vh"} width={"180vw"} src={profilePic}></img>
             <label htmlFor="profileUpload" >
               <img className="editIcon" style={{ position: "absolute", top: "85%", left: "73%" }} height={"35px"} src={Edit} />
             </label>
           </div>
         </div>
+        {toggleProfiePhotoSave &&
+        <div style={{display:"flex",width:"100%",justifyContent:"center",gap:"20px",marginTop:"80px"}}>
+        <button type="button" onClick={uploadProfilePhoto} >Save</button>
+        <button type="button" onClick={()=>{setProfilePic(apiHost+'/'+sessionUserInfo.profilePic);setToggleProfilePhotoSave(false)}} >Cancel</button>
+        </div>}
         <form className="userInfoForm">
+        {
+            menuToggle&&
+                <div className="settingsMenu">
+                    
+                    <p onClick={(e)=>{setToggleUserInfo(true);setMenuToggle(false)}}>Account Details</p>
+                    <p onClick={(e)=>{setToggleUserInfo(true);setMenuToggle(false)}}>Account Details</p>
+                    </div>
+           
+            }
+        
+         {toggleUserInfo&&
           <div className="userInfo">
+          {error!==null && <p style={{fontSize:"13px",color:"red",backgroundColor:"black",borderRadius:"10px",padding:"10px"}}>{error}</p>}
 
             <div className="userInfoRow">
               <label>Username</label>
               <div className="userInfoRowValues">
-                <input readOnly={true} id="Username" value={username} onChange={handleUsernameChange}></input>
+                <input readOnly={true} style={{backgroundImage:"url("+userNameState+')'}} id="Username" value={username} onChange={handleUsernameChange}></input>
                 <img onClick={enableEdit} className="editIconForm" src={Pen}></img>
               </div>
             </div>
@@ -261,7 +365,7 @@ function Settings({ sessionUser }) {
             <div className="userInfoRow">
               <label  >Name</label>
               <div className="userInfoRowValues">
-                <input readOnly={true} id="Name" value={name} onChange={(e) => { setName(e.target.value) }}></input>
+                <input readOnly={true} id="Name" value={name} onChange={handleNameChange}></input>
                 <img onClick={enableEdit} className="editIconForm" src={Pen}></img>
               </div>
             </div>
@@ -271,18 +375,18 @@ function Settings({ sessionUser }) {
               <div className="userInfoRowValues">
               <select value={college} onChange={handleCollegeChange}  style={{ width: "100%", height: "30px" }}>
                   {
-                    collegeOptions.map((data) => (<option value={data.name} label={data.name}></option>))
+                    collegeOptions.map((data) => (<option value={data.value} label={data.name} ></option>))
                   }
 
                 </select>
-                <img onClick={enableEdit} className="editIconForm" src={Pen}></img>
+                <img onClick={enableEdit} style={{opacity:"0"}} className="editIconForm" src={Pen}></img>
               </div>
             </div>
 
             <div className="userInfoRow">
               <label>Age</label>
               <div className="userInfoRowValues">
-                <input readOnly={true} id="Age" value={age} onChange={(e) => { setAge(e.target.value) }}></input>
+                <input type="number" readOnly={true} id="Age" value={age} onChange={handleAgeChange}></input>
                 <img onClick={enableEdit} className="editIconForm" src={Pen}></img>
               </div>
             </div>
@@ -301,16 +405,18 @@ function Settings({ sessionUser }) {
 
             </div>
             <br></br>
+            <div style={{ width: "100%", display: "flex", justifyContent: "center", gap: "40px" }}>
+            <button type="button" onClick={(e)=>{setToggleUserInfo(false);setMenuToggle(true)}}>Back</button>
             {toggleSave &&
-
-              <div style={{ width: "100%", display: "flex", justifyContent: "center", gap: "40px" }}>
+               <>
                 <button type="button" onClick={updateUserDetails}>Save</button>
                 <button type="button" onClick={resetDetails}>Cancel</button>
-              </div>
-
+                </>
             }
-
+           
+           </div>
           </div>
+         }
         </form>
       </div>
 

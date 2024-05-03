@@ -33,8 +33,9 @@ function comments({user,comment,datetime,like_count,getComments,profilePicture,i
       getReplys()
     },[id,sessionUserId])
     useEffect(()=>{
-      if(profilePicture){
-        setProfile(profilePicture)
+      console.log(profilePicture)
+      if(profilePicture !== "nil"){
+        setProfile(api_host+"/"+profilePicture)
       }
       
     },[profilePicture])
@@ -118,7 +119,7 @@ return(
         {
              toggleReply&&<>
              
-             {replies.map((data)=>(<><div style={{ width: "100%", borderBottom: "0.5px solid grey" }}></div><Reply profilePicture={api_host+"/"+data.profilePic}  sessionUserId={sessionUserId} like_count={data.like_count} getReplyInfoForComponent={getReplys} id={data.id} user={data.username} userId={data.userId} datetime={Moment(data.datetime).fromNow()} reply={data.reply}></Reply></>))}
+             {replies.map((data)=>(<><div style={{ width: "100%", borderBottom: "0.5px solid grey" }}></div><Reply profilePicture={data.profilePic}  sessionUserId={sessionUserId} like_count={data.like_count} getReplyInfoForComponent={getReplys} id={data.id} user={data.username} userId={data.userId} datetime={Moment(data.datetime).fromNow()} reply={data.reply}></Reply></>))}
              </>
         }
         {

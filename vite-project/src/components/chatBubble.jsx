@@ -374,7 +374,7 @@ function ChatBubble({image,usertag,getGlobalMessages, username, profile_pic, id,
                     {console.log(comments)}
                    {
                     
-                      comments.map((data)=>(<><div style={{ width: "100%", borderBottom: "0.5px solid grey" }}></div><Comment profilePicture={api_host+"/"+data.profilePic} userId={data.user} sessionUserId={userId} id={data.id} getComments={getComments} like_count={data.like_count} comment={data.comment} user={data.username} datetime={Moment(data.datetime).fromNow(true)}
+                      comments.map((data)=>(<><div style={{ width: "100%", borderBottom: "0.5px solid grey" }}></div><Comment profilePicture={data.profilePic} userId={data.user} sessionUserId={userId} id={data.id} getComments={getComments} like_count={data.like_count} comment={data.comment} user={data.username} datetime={Moment(data.datetime).fromNow(true)}
                        ></Comment></>))
                    }
                     </div>}

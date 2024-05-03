@@ -88,7 +88,7 @@ pool.getConnection((err,conn)=>{
       else{
         userId = req.query.userId
       }   
-      conn.query(`SELECT u.*, c.name collegeName,
+      conn.query(`SELECT u.*, c.name collegeName,c.acronym collegeAcronym,
       r.name roleName FROM users u  
        INNER JOIN college c ON c.id = u.college
        INNER JOIN role r  ON r.id = u.role
@@ -103,7 +103,6 @@ pool.getConnection((err,conn)=>{
     app.patch('/uploadProfilePhoto',upload.single('profilePhoto'),(req,res)=>{
       const { id }=req.body
       console.log("The id is : "+id)
-      console.log(req.body)
       conn.query(`UPDATE users SET profile_photo = ? WHERE id = ?`,[req.file.path,id],(err)=>{
         if(err) throw err
         res.send("successfully added profilePhoto")
@@ -112,16 +111,39 @@ pool.getConnection((err,conn)=>{
     
     app.put('/changeUserDetails',(req,res)=>{
       console.log("yes reached")
-      console.log(req.body.username)
-      conn.query(`UPDATE users SET username = ?,name = ?,college=?,age=?,role = ? WHERE id=?`,[req.body.username,req.body.name,1,req.body.age,req.body.role,req.body.id],(err)=>{
+      console.log(req.body)
+      let college
+      let role
+      conn.query (`SELECT id FROM college WHERE acronym=?`,[req.body.college],(err,rows)=>{
         if(err){
-          throw  err
-          res.send("failed to update the Changes")
+          res.send("Error in adding Details")
         }
         else{
-          res.send("Successfully updated Changes")
-        }
-            })
+
+          college = rows[0].id  
+         }
+         conn.query(`SELECT id FROM role WHERE name =?`,[req.body.role],(err,rows)=>{
+          if(err){
+            console.log(err)
+          }
+          else{
+            role = rows[0].id
+            console.log(role)
+          }
+         
+          conn.query(`UPDATE users SET username = ?,name = ?,college=?,age=?,role = ? WHERE id=?`,[req.body.username,req.body.name,college,req.body.age,role,req.body.id],(err)=>{
+            if(err){
+              
+              res.send("failed to update the Changes")
+            }
+            else{
+              res.send("Successfully updated Changes")
+            }
+                })
+        })
+         })
+         
+      
     })
 
     conn.release()

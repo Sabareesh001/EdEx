@@ -25,8 +25,8 @@ function Reply({user,reply,datetime,like_count,profilePicture,id,sessionUserId,g
         }
     },[id,liked])
     useEffect(()=>{
-       if(profilePicture){
-        setProfile(profilePicture)
+       if(profilePicture !== "nil"){
+        setProfile(api_host+"/"+profilePicture)
        }
     },[profilePicture])
     async function checkLikedReply(){
@@ -134,7 +134,7 @@ return(
              
             {
                
-                replies.map((data)=>(<> <div style={{ width: "100%", borderBottom: "0.5px solid grey" }}></div><Reply profilePicture={api_host+"/"+data.profilePic} userId={userId} user={data.user} like_count={data.like_count} id={data.id} getPrevReply={getReplys} reply={data.reply} sessionUserId={sessionUserId} getReplyInfoForComponent={getReplyInfoForComponent} datetime={Moment(data.datetime).fromNow()}></Reply></>))
+                replies.map((data)=>(<> <div style={{ width: "100%", borderBottom: "0.5px solid grey" }}></div><Reply profilePicture={data.profilePic} userId={data.userId} user={data.user} like_count={data.like_count} id={data.id} getPrevReply={getReplys} reply={data.reply} sessionUserId={sessionUserId} getReplyInfoForComponent={getReplyInfoForComponent} datetime={Moment(data.datetime).fromNow()}></Reply></>))
             }
             
             </>

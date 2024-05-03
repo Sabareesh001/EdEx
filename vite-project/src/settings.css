@@ -8,7 +8,6 @@ cursor: pointer;
     color: white;
     font-size: 15px;
     margin: 0px;
-    padding-top: 60px;
 }
 .profilePage select{
     background-color: transparent;
@@ -128,10 +127,40 @@ cursor: pointer;
 
 @media screen and (max-width:900px) {
      .userInfo{
-        width: 70%;
+        width: 90%;
      }
 }
 
 .menu:hover{
     cursor: pointer;
+}
+
+.settingsMenu{
+    background-color: #06060f;
+    width: 60%;
+    border-radius: 5px;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px ;
+}
+.settingsMenu p:hover{
+    background-color: #1a1a3e;
+    cursor: pointer;
+}
+.settingsMenu p{
+    width: 98%;
+    padding: 10px;
+    margin: 0px;
+    border-radius: 5px;
+    text-align: center;
+}
+#Username{
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position:80% 50%;
+}
+.profilePage button:hover{
+      cursor: pointer;
 }
